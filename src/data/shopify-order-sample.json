@@ -1,0 +1,658 @@
+{
+  "order": {
+    "id": 11472178512221,
+    "admin_graphql_api_id": "gid://shopify/Order/11472178512221",
+    "app_id": 1354745,
+    "browser_ip": "122.161.68.78",
+    "buyer_accepts_marketing": false,
+    "cancel_reason": null,
+    "cancelled_at": null,
+    "cart_token": null,
+    "checkout_id": 64493575078237,
+    "checkout_token": "157bc615190e04dcf3ffcd5843f95cb6",
+    "client_details": {
+      "accept_language": null,
+      "browser_height": null,
+      "browser_ip": "122.161.68.78",
+      "browser_width": null,
+      "session_hash": null,
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
+    },
+    "closed_at": null,
+    "confirmation_number": "PF285KGX5",
+    "confirmed": true,
+    "contact_email": "appro@arteum.com",
+    "created_at": "2025-03-29T06:45:09+00:00",
+    "currency": "EUR",
+    "current_subtotal_price": "583.00",
+    "current_subtotal_price_set": {
+      "shop_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      }
+    },
+    "current_total_additional_fees_set": null,
+    "current_total_discounts": "0.00",
+    "current_total_discounts_set": {
+      "shop_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      }
+    },
+    "current_total_duties_set": null,
+    "current_total_price": "617.00",
+    "current_total_price_set": {
+      "shop_money": {
+        "amount": "617.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "617.00",
+        "currency_code": "EUR"
+      }
+    },
+    "current_total_tax": "0.00",
+    "current_total_tax_set": {
+      "shop_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      }
+    },
+    "customer_locale": "en",
+    "device_id": null,
+    "discount_codes": [],
+    "email": "appro@arteum.com",
+    "estimated_taxes": false,
+    "financial_status": "pending",
+    "fulfillment_status": null,
+    "landing_site": null,
+    "landing_site_ref": null,
+    "location_id": null,
+    "merchant_of_record_app_id": null,
+    "name": "#W3412",
+    "note": null,
+    "note_attributes": [],
+    "number": 2412,
+    "order_number": 3412,
+    "order_status_url": "https://world.trovelore.com/27071548/orders/3005680b2fbadb3940bd8ad2c5ec677a/authenticate?key=357566cb206a12ecf34d91987ed4cef0",
+    "original_total_additional_fees_set": null,
+    "original_total_duties_set": null,
+    "payment_gateway_names": [],
+    "phone": "+33764365279",
+    "po_number": null,
+    "presentment_currency": "EUR",
+    "processed_at": "2025-03-29T06:45:08+00:00",
+    "reference": null,
+    "referring_site": null,
+    "source_identifier": null,
+    "source_name": "shopify_draft_order",
+    "source_url": null,
+    "subtotal_price": "583.00",
+    "subtotal_price_set": {
+      "shop_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      }
+    },
+    "tags": "",
+    "tax_exempt": true,
+    "tax_lines": [],
+    "taxes_included": false,
+    "test": false,
+    "token": "3005680b2fbadb3940bd8ad2c5ec677a",
+    "total_discounts": "0.00",
+    "total_discounts_set": {
+      "shop_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      }
+    },
+    "total_line_items_price": "583.00",
+    "total_line_items_price_set": {
+      "shop_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "583.00",
+        "currency_code": "EUR"
+      }
+    },
+    "total_outstanding": "617.00",
+    "total_price": "617.00",
+    "total_price_set": {
+      "shop_money": {
+        "amount": "617.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "617.00",
+        "currency_code": "EUR"
+      }
+    },
+    "total_shipping_price_set": {
+      "shop_money": {
+        "amount": "34.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "34.00",
+        "currency_code": "EUR"
+      }
+    },
+    "total_tax": "0.00",
+    "total_tax_set": {
+      "shop_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      },
+      "presentment_money": {
+        "amount": "0.00",
+        "currency_code": "EUR"
+      }
+    },
+    "total_tip_received": "0.00",
+    "total_weight": 3,
+    "updated_at": "2025-03-29T06:46:10+00:00",
+    "user_id": 13903331371,
+    "billing_address": {
+      "first_name": "Nackou",
+      "address1": "Place Jacques Rouche",
+      "phone": "+33764365279",
+      "city": "Paris",
+      "zip": "75009",
+      "province": null,
+      "country": "France",
+      "last_name": "DIAOUNE",
+      "address2": "(En face du 8 rue Halevy)",
+      "company": "Opera Garnier (Arteum)",
+      "latitude": 48.8718161,
+      "longitude": 2.332621,
+      "name": "Nackou DIAOUNE",
+      "country_code": "FR",
+      "province_code": null
+    },
+    "customer": {
+      "id": 22748896854365,
+      "email": "appro@arteum.com",
+      "created_at": "2025-03-29T06:33:34+00:00",
+      "updated_at": "2025-03-29T06:45:09+00:00",
+      "first_name": "Nackou",
+      "last_name": "DIAOUNE",
+      "state": "disabled",
+      "note": "",
+      "verified_email": true,
+      "multipass_identifier": null,
+      "tax_exempt": true,
+      "phone": "+33764365279",
+      "email_marketing_consent": {
+        "state": "not_subscribed",
+        "opt_in_level": "single_opt_in",
+        "consent_updated_at": null
+      },
+      "sms_marketing_consent": {
+        "state": "not_subscribed",
+        "opt_in_level": "single_opt_in",
+        "consent_updated_at": null,
+        "consent_collected_from": "SHOPIFY"
+      },
+      "tags": "",
+      "currency": "EUR",
+      "tax_exemptions": [],
+      "admin_graphql_api_id": "gid://shopify/Customer/22748896854365",
+      "default_address": {
+        "id": 32904406368605,
+        "customer_id": 22748896854365,
+        "first_name": "Nackou ",
+        "last_name": "DIAOUNE",
+        "company": "Opera Garnier (Arteum)",
+        "address1": "Place Jacques Rouche",
+        "address2": "(En face du 8 rue Halevy)",
+        "city": "Paris",
+        "province": null,
+        "country": "France",
+        "zip": "75009",
+        "phone": "+33764365279",
+        "name": "Nackou  DIAOUNE",
+        "province_code": null,
+        "country_code": "FR",
+        "country_name": "France",
+        "default": true
+      }
+    },
+    "discount_applications": [],
+    "fulfillments": [],
+    "line_items": [
+      {
+        "id": 34368165904733,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34368165904733",
+        "attributed_staffs": [],
+        "current_quantity": 6,
+        "fulfillable_quantity": 6,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Venetian Masquerade Brooch Pin",
+        "price": "23.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "23.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "23.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8961414168925,
+        "properties": [],
+        "quantity": 6,
+        "requires_shipping": true,
+        "sku": "TL-B-179",
+        "taxable": false,
+        "title": "Venetian Masquerade Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 50000797270365,
+        "variant_inventory_management": "shopify",
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34368165937501,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34368165937501",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 1,
+        "name": "Treble Love Brooch Pin",
+        "price": "23.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "23.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "23.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 1668221075499,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-181",
+        "taxable": false,
+        "title": "Treble Love Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 15372159418411,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34368165970269,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34368165970269",
+        "attributed_staffs": [],
+        "current_quantity": 6,
+        "fulfillable_quantity": 6,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Butterfly Masquerade Brooch Pin",
+        "price": "23.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "23.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "23.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8961419018589,
+        "properties": [],
+        "quantity": 6,
+        "requires_shipping": true,
+        "sku": "TL-B-180",
+        "taxable": false,
+        "title": "Butterfly Masquerade Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 50000808411485,
+        "variant_inventory_management": "shopify",
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34368166003037,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34368166003037",
+        "attributed_staffs": [],
+        "current_quantity": 6,
+        "fulfillable_quantity": 6,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Harp Brooch Pin",
+        "price": "22.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "22.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "22.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 4574740152393,
+        "properties": [],
+        "quantity": 6,
+        "requires_shipping": true,
+        "sku": "TL-B-184",
+        "taxable": false,
+        "title": "Harp Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 31841108590665,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34368166035805,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34368166035805",
+        "attributed_staffs": [],
+        "current_quantity": 6,
+        "fulfillable_quantity": 6,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Treble Brooch Pin",
+        "price": "20.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "20.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "20.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 4574739464265,
+        "properties": [],
+        "quantity": 6,
+        "requires_shipping": true,
+        "sku": "TL-B-182",
+        "taxable": false,
+        "title": "Treble Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 31841107968073,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "duties": [],
+        "discount_allocations": []
+      }
+    ],
+    "payment_terms": {
+      "id": 56869683549,
+      "created_at": "2025-03-29T06:45:09+00:00",
+      "due_in_days": null,
+      "payment_schedules": [],
+      "payment_terms_name": "Due on receipt",
+      "payment_terms_type": "receipt",
+      "updated_at": "2025-03-29T06:45:09+00:00"
+    },
+    "refunds": [],
+    "shipping_address": {
+      "first_name": "Nackou",
+      "address1": "Place Jacques Rouche",
+      "phone": "+33764365279",
+      "city": "Paris",
+      "zip": "75009",
+      "province": null,
+      "country": "France",
+      "last_name": "DIAOUNE",
+      "address2": "(En face du 8 rue Halevy)",
+      "company": "Opera Garnier (Arteum)",
+      "latitude": 48.8718161,
+      "longitude": 2.332621,
+      "name": "Nackou DIAOUNE",
+      "country_code": "FR",
+      "province_code": null
+    },
+    "shipping_lines": [
+      {
+        "id": 10666922246493,
+        "carrier_identifier": null,
+        "code": "EU Zone 1 S",
+        "discounted_price": "34.00",
+        "discounted_price_set": {
+          "shop_money": {
+            "amount": "34.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "34.00",
+            "currency_code": "EUR"
+          }
+        },
+        "is_removed": false,
+        "phone": null,
+        "price": "34.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "34.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "34.00",
+            "currency_code": "EUR"
+          }
+        },
+        "requested_fulfillment_service_id": null,
+        "source": "shopify",
+        "title": "EU Zone 1 S",
+        "tax_lines": [
+          {
+            "channel_liable": false,
+            "price": "0.00",
+            "price_set": {
+              "shop_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              },
+              "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "EUR"
+              }
+            },
+            "rate": 0.2,
+            "title": "FR TVA"
+          }
+        ],
+        "discount_allocations": []
+      }
+    ]
+  }
+}
