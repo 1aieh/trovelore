@@ -38,14 +38,14 @@ export async function fetchShopifyOrders(): Promise<Order[]> {
     );
 
     // Extract shipping price if available
-    let shippingPrice = "";
+    let shippingPrice = 0; // Changed to number with default 0
     if (Array.isArray(shopifyOrder.shipping_lines) && shopifyOrder.shipping_lines.length > 0) {
-      shippingPrice = shopifyOrder.shipping_lines[0].price || "";
+      shippingPrice = parseFloat(shopifyOrder.shipping_lines[0].price || "0");
     }
 
     return {
       // Use order_number as the unique identifier and order reference.
-      id: shopifyOrder.order_number.toString(),
+      id: parseInt(shopifyOrder.order_number.toString()), // Changed to number
       created_at: shopifyOrder.created_at,
       order_ref: shopifyOrder.order_number.toString(),
       order_date: shopifyOrder.created_at,
@@ -59,27 +59,27 @@ export async function fetchShopifyOrders(): Promise<Order[]> {
       zip_code: defaultAddress.zip || "",
       country: defaultAddress.country || "",
       zone: "",               // Not provided by Shopify.
-      ship_date: "",          // Not provided.
-      ship_status: "",        // Not provided (default could be set on Supabase).
-      received: "",           // Not provided.
+      ship_date: null,        // Not provided.
+      ship_status: "Not Shipped",
+      received: "No",         // Text field in Supabase
       // Store the entire line items array as a JSON snapshot.
-      products: JSON.stringify(shopifyOrder.line_items),
-      total_qty: totalQty.toString(),
-      value: shopifyOrder.subtotal_price,
-      shipping: shippingPrice,
-      total_amt: shopifyOrder.total_price,
-      vat_amt: shopifyOrder.current_total_tax,
-      total_topay: shopifyOrder.total_price, // For now, assume equal to total price.
-      payment_status: shopifyOrder.financial_status === "paid" ? "Deposit Paid" : "Deposit Pending",
-      deposit_25: "",         // Not provided.
-      payment_1: "",          // Not provided.
-      date_p1: "",            // Not provided.
-      payment_2: "",          // Not provided.
-      date_p2: "",            // Not provided.
-      payment_3: "",          // Not provided.
-      date_p3: "",            // Not provided.
-      payment_4: "",          // Not provided.
-      date_p4: "",            // Not provided.
+      products: shopifyOrder.line_items, // Changed to direct object for jsonb
+      total_qty: totalQty,    // Changed to number
+      value: parseFloat(shopifyOrder.subtotal_price || "0"), // Changed to number
+      shipping: shippingPrice, // Changed to number
+      total_amt: parseFloat(shopifyOrder.total_price || "0"), // Changed to number
+      vat_amt: parseFloat(shopifyOrder.current_total_tax || "0"), // Changed to number
+      total_topay: parseFloat(shopifyOrder.total_price || "0"), // Changed to number
+      payment_status: shopifyOrder.financial_status === "paid" ? "Deposit Paid" : "No Payment Received",
+      deposit_25: 0,          // Changed to number
+      payment_1: null,        // Changed to null
+      date_p1: null,          // Changed to null
+      payment_2: null,        // Changed to null
+      date_p2: null,          // Changed to null
+      payment_3: null,        // Changed to null
+      date_p3: null,          // Changed to null
+      payment_4: null,        // Changed to null
+      date_p4: null,          // Changed to null
       shopify_id: shopifyOrder.id.toString(),
       source: "Shopify",
       // Map line items individually (if needed for display or further processing)
@@ -90,16 +90,18 @@ export async function fetchShopifyOrders(): Promise<Order[]> {
         return {
           id: item.id.toString(),
           title: item.title,
-          quantity,
+          quantity: quantity,
           price: price,
           sku: item.sku || "",
-          variantTitle: item.variant_title || "",
+          variant_title: item.variant_title || "",
+          product_id: item.product_id,
+          variant_id: item.variant_id,
+          vendor: item.vendor,
+          name: item.name,
           subtotal_price: price,
           total_price: total,
         };
       }),
-      subtotal_price: shopifyOrder.subtotal_price,
-      total_price: shopifyOrder.total_price,
     } as Order;
   });
 }

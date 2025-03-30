@@ -7,64 +7,114 @@ export type OrderStatus =
   | "Shipped"
   | "Delivered";
 
-export type PaymentStatus = "0%" | "25%" | "50%" | "75%" | "100%";
+export type PaymentStatus = 
+  | "No Payment Received" 
+  | "0%" 
+  | "25%" 
+  | "50%" 
+  | "75%" 
+  | "100%";
 
 // If you want a specific type for shipping status, you can define it; otherwise, use string.
-export type ShipStatus = string;
+export type ShipStatus = "Not Shipped" | "Shipped" | "Delivered" | string;
 
 // Add OrderItem interface for Shopify line items
 export interface OrderItem {
-  id: string;
+  id: string | number;
   title: string;
-  quantity: number;
+  quantity: number | string; // Allow both number and string for quantity
   price: string;
   sku: string;
-  variantTitle: string;
-  subtotal_price: string;
-  total_price: string;
+  variant_title?: string;
+  product_id?: string | number;
+  variant_id?: string | number;
+  vendor?: string;
+  name?: string;
+  grams?: number;
+  requires_shipping?: boolean;
+  subtotal_price?: string; // Add this property
+  total_price?: string;    // Add this property
+}
+
+// Shopify customer interface
+export interface ShopifyCustomer {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone?: string;
+  default_address?: ShopifyAddress;
+}
+
+// Shopify address interface
+export interface ShopifyAddress {
+  first_name: string;
+  last_name: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  zip: string;
+  country: string;
+  phone?: string;
+  company?: string;
+}
+
+// Shopify shipping line interface
+export interface ShopifyShippingLine {
+  price: string;
+  title: string;
+  code?: string;
 }
 
 export interface Order {
   // Database-generated or provided fields
-  id: number | string;
-  created_at?: string;      // Timestamp of creation
-  order_ref?: string;       // Order reference
-  order_date?: string;      // Order date (as string/timestamp)
-  order_from?: string;      // Order source (e.g., "Online" or "Shopify")
-  block_id?: number | null; // Foreign key to Blocks table
-  buyer_id?: number | null; // Foreign key to Buyers table
-  buyer: string;            // Buyer name
-  city?: string;
-  zip_code?: string;
-  country?: string;
-  zone?: string;
-  ship_date?: string;
-  ship_status?: ShipStatus;
-  received?: string;
-  // For product details, store a JSON snapshot (as a string)
-  products?: string;
-  total_qty?: string;
-  value?: string;
-  shipping?: string;
-  total_amt?: string;
-  vat_amt?: string;
-  total_topay?: string;
-  payment_status?: string;
-  deposit_25?: string;
-  payment_1?: string;
-  date_p1?: string;
-  payment_2?: string;
-  date_p2?: string;
-  payment_3?: string;
-  date_p3?: string;
-  payment_4?: string;
-  date_p4?: string;
-  shopify_id?: string;
-  source?: "Shopify" | "Manual";
-  // Add lineItems property for Shopify orders
-  lineItems?: OrderItem[];
-  subtotal_price?: string;
+  id?: number;                // int8 in Supabase
+  created_at?: string;        // timestamptz in Supabase
+  order_ref?: string;         // text in Supabase
+  order_date?: string | Date; // date in Supabase
+  order_from?: string;        // text in Supabase
+  block_id?: number | null;   // int8 in Supabase
+  buyer_id?: number | null;   // int8 in Supabase
+  buyer?: string;             // text in Supabase
+  city?: string;              // text in Supabase
+  zip_code?: string;          // text in Supabase
+  country?: string;           // text in Supabase
+  zone?: string;              // text in Supabase
+  ship_date?: string | Date | null; // date in Supabase
+  ship_status?: ShipStatus;   // text in Supabase
+  received?: string;          // text in Supabase
+  products?: any;             // jsonb in Supabase
+  total_qty?: number;         // int4 in Supabase
+  value?: number;             // numeric in Supabase
+  shipping?: number;          // numeric in Supabase
+  total_amt?: number;         // numeric in Supabase
+  vat_amt?: number;           // numeric in Supabase
+  total_topay?: number;       // numeric in Supabase
+  payment_status?: string;    // text in Supabase
+  deposit_25?: number;        // numeric in Supabase
+  payment_1?: number | null;  // numeric in Supabase
+  date_p1?: string | Date | null; // date in Supabase
+  payment_2?: number | null;  // numeric in Supabase
+  date_p2?: string | Date | null; // date in Supabase
+  payment_3?: number | null;  // numeric in Supabase
+  date_p3?: string | Date | null; // date in Supabase
+  payment_4?: number | null;  // numeric in Supabase
+  date_p4?: string | Date | null; // date in Supabase
+  shopify_id?: string;        // text in Supabase
+  source?: "Shopify" | "Manual"; // text in Supabase
+  
+  // Shopify specific fields (not stored in DB but used for mapping)
+  name?: string;
+  order_number?: number;
+  customer?: ShopifyCustomer;
+  billing_address?: ShopifyAddress;
+  shipping_address?: ShopifyAddress;
+  line_items?: OrderItem[];
+  shipping_lines?: ShopifyShippingLine[];
   total_price?: string;
+  subtotal_price?: string;
+  financial_status?: string;
+  lineItems?: OrderItem[]; // For frontend use
 }
 
 // This is a simplified type for displaying in a table.

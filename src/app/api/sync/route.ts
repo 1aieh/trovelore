@@ -53,41 +53,100 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      // Skip if order already exists
+      // Also check if order_ref already exists to prevent unique constraint violation
+      const orderRef = order.order_ref || order.name || `#${order.order_number}` || '';
+      const { data: existingRef, error: selectRefError } = await supabase
+        .from("orders")
+        .select("order_ref")
+        .eq("order_ref", orderRef);
+
+      if (selectRefError) {
+        console.error("Error checking for duplicate order_ref:", selectRefError);
+        errorOrdersCount++;
+        errorDetails.push(`Order ${order.order_ref}: ${selectRefError.message}`);
+        continue;
+      }
+
+      // Skip if order already exists by shopify_id
       if (existing && existing.length > 0) {
         console.log(`Skipping existing order: ${order.order_ref}`);
         skippedOrdersCount++;
         continue;
       }
 
+      // Skip if order_ref already exists
+      if (existingRef && existingRef.length > 0) {
+        console.log(`Skipping order with duplicate order_ref: ${orderRef}`);
+        skippedOrdersCount++; // Changed from errorOrdersCount to skippedOrdersCount
+        continue; // Skip this order but don't count it as an error
+      }
+
       console.log(`Processing new order: ${order.order_ref}`);
 
       try {
-        // Get the table structure to see what columns are available
-        const { data: tableInfo, error: tableError } = await supabase
-          .from('orders')
-          .select('*')
-          .limit(1);
-          
-        if (tableError) {
-          console.error("Error getting table structure:", tableError);
-        } else {
-          console.log("Available columns:", tableInfo.length > 0 ? Object.keys(tableInfo[0]) : "No data");
-        }
-        
-        // Prepare order data for insertion, converting undefined to null
-        // and mapping to the correct column names
+        // Prepare order data for insertion, mapping Shopify fields to Supabase columns
         const newOrder = {
-          // Try different field mappings based on your Supabase schema
-          order_ref: order.order_ref,
-          order_date: order.order_date,
-          source: order.source || "Shopify",
-          shopify_id: order.shopify_id,
-          // Add other fields as needed, matching your Supabase schema
+          // Basic order information
+          order_ref: orderRef, // Use the same orderRef we checked above
+          order_date: order.created_at || new Date().toISOString(),
+          order_from: "Shopify", // This matches your order_from column
+          
+          // Customer information
+          buyer: order.customer ? 
+            `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim() : 
+            '',
+          
+          // Address information from billing_address
+          city: order.billing_address?.city || '',
+          zip_code: order.billing_address?.zip || '',
+          country: order.billing_address?.country || '',
+          
+          // Default shipping information
+          zone: '',
+          ship_date: null,
+          ship_status: 'Not Shipped',
+          received: 'No',
+          
+          // Product information
+          products: order.line_items || [], // Changed from JSON.stringify to direct object for jsonb
+          total_qty: order.line_items ? 
+            order.line_items.reduce((sum, item) => {
+              // Convert quantity to number if it's a string, then add to sum
+              const itemQty = typeof item.quantity === 'string' ? 
+                parseInt(item.quantity) || 0 : 
+                item.quantity || 0;
+              return sum + itemQty;
+            }, 0) : // Removed toString() to keep as number
+            0, // Changed from '0' to 0
+          
+          // Financial information
+          value: parseFloat(order.total_price || '0'), // Convert to number
+          shipping: order.shipping_lines && order.shipping_lines.length > 0 ? 
+            parseFloat(order.shipping_lines[0].price || '0') : // Convert to number
+            0, // Changed from '0' to 0
+          total_amt: parseFloat(order.total_price || '0'), // Convert to number
+          vat_amt: 0, // Changed from '0' to 0
+          total_topay: parseFloat(order.total_price || '0'), // Convert to number
+          payment_status: 'No Payment Received',
+          
+          // Payment tracking fields (empty by default)
+          deposit_25: 0, // Changed from null to 0
+          payment_1: null,
+          date_p1: null,
+          payment_2: null,
+          date_p2: null,
+          payment_3: null,
+          date_p3: null,
+          payment_4: null,
+          date_p4: null,
+          
+          // Shopify identifier
+          shopify_id: order.id?.toString() || '',
+          source: "Shopify"
         };
-
+      
         console.log("Attempting to insert order with data:", JSON.stringify(newOrder, null, 2));
-
+      
         // Insert the new order into Supabase
         const { error: insertError } = await supabase
           .from("orders")
