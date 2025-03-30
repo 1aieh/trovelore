@@ -32,8 +32,8 @@ export interface OrderItem {
   name?: string;
   grams?: number;
   requires_shipping?: boolean;
-  subtotal_price?: string; // Add this property
-  total_price?: string;    // Add this property
+  subtotal_price?: string;
+  total_price?: string;
 }
 
 // Shopify customer interface
@@ -67,7 +67,7 @@ export interface ShopifyShippingLine {
 }
 
 export interface Order {
-  // Database-generated or provided fields
+  // Database-generated or provided fields (matching your Supabase table)
   id?: number;                // int8 in Supabase
   created_at?: string;        // timestamptz in Supabase
   order_ref?: string;         // text in Supabase
@@ -87,11 +87,11 @@ export interface Order {
   total_qty?: number;         // int4 in Supabase
   value?: number;             // numeric in Supabase
   shipping?: number;          // numeric in Supabase
-  total_amt?: number;         // numeric in Supabase
-  vat_amt?: number;           // numeric in Supabase
+  total_amt?: number | null;  // numeric in Supabase
+  vat_amt?: number | null;    // numeric in Supabase
   total_topay?: number;       // numeric in Supabase
   payment_status?: string;    // text in Supabase
-  deposit_25?: number;        // numeric in Supabase
+  deposit_25?: number | null; // numeric in Supabase
   payment_1?: number | null;  // numeric in Supabase
   date_p1?: string | Date | null; // date in Supabase
   payment_2?: number | null;  // numeric in Supabase
@@ -103,7 +103,7 @@ export interface Order {
   shopify_id?: string;        // text in Supabase
   source?: "Shopify" | "Manual"; // text in Supabase
   
-  // Shopify specific fields (not stored in DB but used for mapping)
+  // Shopify-specific fields for mapping purposes (optional, not stored in DB)
   name?: string;
   order_number?: number;
   customer?: ShopifyCustomer;
