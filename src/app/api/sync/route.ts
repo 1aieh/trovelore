@@ -1,13 +1,13 @@
 // src/app/api/sync/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { fetchShopifyOrders } from "@/lib/shopify-api";
-import { supabaseAdmin as supabase } from "@/lib/supabaseClient"; // Use admin client for higher privileges
+import { supabaseAdmin as supabase } from "@/lib/supabaseClient"; // Admin client
 
 export async function POST(request: NextRequest) {
   try {
     console.log("API route: Starting Shopify order sync...");
-    
-    // Verify Supabase connection
+
+    // Ensure Supabase client is available.
     if (!supabase) {
       console.error("Supabase client not initialized");
       return NextResponse.json(
@@ -15,12 +15,12 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    
+
     // Fetch orders from Shopify API
     const shopifyOrders = await fetchShopifyOrders();
     console.log(`API route: Fetched ${shopifyOrders.length} orders from Shopify`);
 
-    // Debug: Log the first order to see its structure
+    // Debug: Log first order structure
     if (shopifyOrders.length > 0) {
       console.log("Sample order structure:", JSON.stringify(shopifyOrders[0], null, 2));
     }
@@ -28,13 +28,15 @@ export async function POST(request: NextRequest) {
     let newOrdersCount = 0;
     let skippedOrdersCount = 0;
     let errorOrdersCount = 0;
+    let errorDetails = [];
 
     // Loop over each Shopify order
     for (const order of shopifyOrders) {
       // Ensure shopify_id exists
       if (!order.shopify_id) {
-        console.error("Order missing shopify_id, skipping:", order.order_ref);
+        console.error("Order missing shopifyId, skipping:", order.order_ref);
         errorOrdersCount++;
+        errorDetails.push(`Order ${order.order_ref || 'unknown'}: Missing shopify_id`);
         continue;
       }
 
@@ -47,6 +49,7 @@ export async function POST(request: NextRequest) {
       if (selectError) {
         console.error("Error selecting order:", selectError);
         errorOrdersCount++;
+        errorDetails.push(`Order ${order.order_ref}: ${selectError.message}`);
         continue;
       }
 
@@ -58,39 +61,53 @@ export async function POST(request: NextRequest) {
       }
 
       console.log(`Processing new order: ${order.order_ref}`);
-      
-      // Prepare order data for insertion
-      // Convert any undefined values to null for Postgres compatibility
-      const newOrder = Object.entries(order).reduce((acc, [key, value]) => {
-        acc[key] = value === undefined ? null : value;
-        return acc;
-      }, {} as Record<string, any>);
-      
-      // Ensure products is a string
-      if (newOrder.products && typeof newOrder.products !== 'string') {
-        newOrder.products = JSON.stringify(newOrder.products);
-      }
-      
-      // Remove any fields that might cause issues with your schema
-      delete newOrder.lineItems;
-      
-      // Insert the new order into Supabase
-      const { error: insertError } = await supabase
-        .from("orders")
-        .insert(newOrder);
 
-      if (insertError) {
-        console.error("Error inserting order:", insertError);
-        console.error("Order data causing error:", JSON.stringify(newOrder, null, 2));
+      try {
+        // Get the table structure to see what columns are available
+        const { data: tableInfo, error: tableError } = await supabase
+          .from('orders')
+          .select('*')
+          .limit(1);
+          
+        if (tableError) {
+          console.error("Error getting table structure:", tableError);
+        } else {
+          console.log("Available columns:", tableInfo.length > 0 ? Object.keys(tableInfo[0]) : "No data");
+        }
+        
+        // Prepare order data for insertion, converting undefined to null
+        // and mapping to the correct column names
+        const newOrder = {
+          // Try different field mappings based on your Supabase schema
+          order_ref: order.order_ref,
+          order_date: order.order_date,
+          source: order.source || "Shopify",
+          shopify_id: order.shopify_id,
+          // Add other fields as needed, matching your Supabase schema
+        };
+
+        console.log("Attempting to insert order with data:", JSON.stringify(newOrder, null, 2));
+
+        // Insert the new order into Supabase
+        const { error: insertError } = await supabase
+          .from("orders")
+          .insert(newOrder);
+
+        if (insertError) {
+          console.error("Error inserting order:", insertError);
+          console.error("Order data causing error:", JSON.stringify(newOrder, null, 2));
+          errorOrdersCount++;
+          errorDetails.push(`Order ${order.order_ref}: ${insertError.message}`);
+        } else {
+          newOrdersCount++;
+          console.log(`Successfully inserted order: ${order.order_ref}`);
+        }
+      } catch (orderError: any) {
+        console.error(`Error processing order ${order?.order_ref || 'unknown'}:`, orderError);
         errorOrdersCount++;
-      } else {
-        newOrdersCount++;
-        console.log(`Successfully inserted order: ${order.order_ref}`);
+        errorDetails.push(`Order ${order?.order_ref || 'unknown'}: ${orderError?.message || 'Unknown error'}`);
       }
     }
-
-    // Force a delay to ensure database operations complete
-    await new Promise(resolve => setTimeout(resolve, 500));
 
     return NextResponse.json({
       success: true,
@@ -99,8 +116,9 @@ export async function POST(request: NextRequest) {
         total: shopifyOrders.length,
         new: newOrdersCount,
         skipped: skippedOrdersCount,
-        errors: errorOrdersCount
-      }
+        errors: errorOrdersCount,
+      },
+      errorDetails: errorDetails.slice(0, 10) // Include first 10 error details for debugging
     });
   } catch (error: any) {
     console.error("Error during synchronization:", error);

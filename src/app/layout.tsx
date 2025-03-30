@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-import OrdersTable from "@/components/comp-485";
-import SyncShopify from "@/components/SyncShopify";
+import SyncShopify from "@/components/SyncShopify"; // Client component for syncing orders
+import OrdersTable from "@/components/comp-485"; // Your orders table component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,20 +21,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  
-  // Add console log for debugging Shopify order fetching
-  console.log('Attempting to render layout with Shopify components');
-  
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="container mx-auto py-8">
+          {/* The SyncShopify component will trigger the sync on client load */}
           <SyncShopify />
+          {/* Your orders table component */}
           <OrdersTable data={[]} />
         </div>
         {children}

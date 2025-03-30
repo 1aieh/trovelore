@@ -1,37 +1,37 @@
 {
   "order": {
-    "id": 11472178512221,
-    "admin_graphql_api_id": "gid://shopify/Order/11472178512221",
-    "app_id": 1354745,
-    "browser_ip": "122.161.68.78",
-    "buyer_accepts_marketing": false,
+    "id": 11473815077213,
+    "admin_graphql_api_id": "gid://shopify/Order/11473815077213",
+    "app_id": 580111,
+    "browser_ip": "188.177.84.253",
+    "buyer_accepts_marketing": true,
     "cancel_reason": null,
     "cancelled_at": null,
-    "cart_token": null,
-    "checkout_id": 64493575078237,
-    "checkout_token": "157bc615190e04dcf3ffcd5843f95cb6",
+    "cart_token": "Z2NwLWV1cm9wZS13ZXN0MzowMUpRSzVQNTVDVDVOMktITjZHVDZRRjA5Nw",
+    "checkout_id": 64496886514013,
+    "checkout_token": "b60f9c172e1eafa81c21eb5052310a1e",
     "client_details": {
-      "accept_language": null,
+      "accept_language": "en-DK",
       "browser_height": null,
-      "browser_ip": "122.161.68.78",
+      "browser_ip": "188.177.84.253",
       "browser_width": null,
       "session_hash": null,
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
     },
     "closed_at": null,
-    "confirmation_number": "PF285KGX5",
+    "confirmation_number": "NU5PKQWM6",
     "confirmed": true,
-    "contact_email": "appro@arteum.com",
-    "created_at": "2025-03-29T06:45:09+00:00",
+    "contact_email": "charlotte@shadesby.dk",
+    "created_at": "2025-03-30T10:36:12+01:00",
     "currency": "EUR",
-    "current_subtotal_price": "583.00",
+    "current_subtotal_price": "942.50",
     "current_subtotal_price_set": {
       "shop_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       }
     },
@@ -48,14 +48,14 @@
       }
     },
     "current_total_duties_set": null,
-    "current_total_price": "617.00",
+    "current_total_price": "978.50",
     "current_total_price_set": {
       "shop_money": {
-        "amount": "617.00",
+        "amount": "978.50",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "617.00",
+        "amount": "978.50",
         "currency_code": "EUR"
       }
     },
@@ -70,43 +70,45 @@
         "currency_code": "EUR"
       }
     },
-    "customer_locale": "en",
+    "customer_locale": "en-DK",
     "device_id": null,
     "discount_codes": [],
-    "email": "appro@arteum.com",
+    "email": "charlotte@shadesby.dk",
     "estimated_taxes": false,
     "financial_status": "pending",
     "fulfillment_status": null,
-    "landing_site": null,
+    "landing_site": "/",
     "landing_site_ref": null,
     "location_id": null,
     "merchant_of_record_app_id": null,
-    "name": "#W3412",
+    "name": "#W3413",
     "note": null,
     "note_attributes": [],
-    "number": 2412,
-    "order_number": 3412,
-    "order_status_url": "https://world.trovelore.com/27071548/orders/3005680b2fbadb3940bd8ad2c5ec677a/authenticate?key=357566cb206a12ecf34d91987ed4cef0",
+    "number": 2413,
+    "order_number": 3413,
+    "order_status_url": "https://world.trovelore.com/27071548/orders/f27170df87831a3e156025a6a8b5bd0b/authenticate?key=ea3ef18db864cdd47c9717b6e0108aba",
     "original_total_additional_fees_set": null,
     "original_total_duties_set": null,
-    "payment_gateway_names": [],
-    "phone": "+33764365279",
+    "payment_gateway_names": [
+      "Bank Deposit"
+    ],
+    "phone": "+4522915023",
     "po_number": null,
     "presentment_currency": "EUR",
-    "processed_at": "2025-03-29T06:45:08+00:00",
+    "processed_at": "2025-03-30T10:36:07+01:00",
     "reference": null,
-    "referring_site": null,
+    "referring_site": "https://trovelore.com/",
     "source_identifier": null,
-    "source_name": "shopify_draft_order",
+    "source_name": "web",
     "source_url": null,
-    "subtotal_price": "583.00",
+    "subtotal_price": "942.50",
     "subtotal_price_set": {
       "shop_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       }
     },
@@ -115,7 +117,7 @@
     "tax_lines": [],
     "taxes_included": false,
     "test": false,
-    "token": "3005680b2fbadb3940bd8ad2c5ec677a",
+    "token": "f27170df87831a3e156025a6a8b5bd0b",
     "total_discounts": "0.00",
     "total_discounts_set": {
       "shop_money": {
@@ -127,36 +129,36 @@
         "currency_code": "EUR"
       }
     },
-    "total_line_items_price": "583.00",
+    "total_line_items_price": "942.50",
     "total_line_items_price_set": {
       "shop_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "583.00",
+        "amount": "942.50",
         "currency_code": "EUR"
       }
     },
-    "total_outstanding": "617.00",
-    "total_price": "617.00",
+    "total_outstanding": "978.50",
+    "total_price": "978.50",
     "total_price_set": {
       "shop_money": {
-        "amount": "617.00",
+        "amount": "978.50",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "617.00",
+        "amount": "978.50",
         "currency_code": "EUR"
       }
     },
     "total_shipping_price_set": {
       "shop_money": {
-        "amount": "34.00",
+        "amount": "36.00",
         "currency_code": "EUR"
       },
       "presentment_money": {
-        "amount": "34.00",
+        "amount": "36.00",
         "currency_code": "EUR"
       }
     },
@@ -172,43 +174,43 @@
       }
     },
     "total_tip_received": "0.00",
-    "total_weight": 3,
-    "updated_at": "2025-03-29T06:46:10+00:00",
-    "user_id": 13903331371,
+    "total_weight": 6,
+    "updated_at": "2025-03-30T10:36:13+01:00",
+    "user_id": null,
     "billing_address": {
-      "first_name": "Nackou",
-      "address1": "Place Jacques Rouche",
-      "phone": "+33764365279",
-      "city": "Paris",
-      "zip": "75009",
+      "first_name": "Charlotte",
+      "address1": "Bjergegade 1D",
+      "phone": "+4522915023",
+      "city": "Helsingor",
+      "zip": "DK3000",
       "province": null,
-      "country": "France",
-      "last_name": "DIAOUNE",
-      "address2": "(En face du 8 rue Halevy)",
-      "company": "Opera Garnier (Arteum)",
-      "latitude": 48.8718161,
-      "longitude": 2.332621,
-      "name": "Nackou DIAOUNE",
-      "country_code": "FR",
+      "country": "Denmark",
+      "last_name": "TOT JENSEN",
+      "address2": null,
+      "company": "Shades by igen i brug",
+      "latitude": 56.034668,
+      "longitude": 12.612207,
+      "name": "Charlotte TOT JENSEN",
+      "country_code": "DK",
       "province_code": null
     },
     "customer": {
-      "id": 22748896854365,
-      "email": "appro@arteum.com",
-      "created_at": "2025-03-29T06:33:34+00:00",
-      "updated_at": "2025-03-29T06:45:09+00:00",
-      "first_name": "Nackou",
-      "last_name": "DIAOUNE",
-      "state": "disabled",
-      "note": "",
+      "id": 8383612191069,
+      "email": "charlotte@shadesby.dk",
+      "created_at": "2024-08-27T07:40:59+01:00",
+      "updated_at": "2025-03-30T10:36:13+01:00",
+      "first_name": "Charlotte",
+      "last_name": "TOT JENSEN",
+      "state": "enabled",
+      "note": "VAT : DK 28917384\nFirst : Formland, Aug 24, Marianne",
       "verified_email": true,
       "multipass_identifier": null,
       "tax_exempt": true,
-      "phone": "+33764365279",
+      "phone": "+4522915023",
       "email_marketing_consent": {
-        "state": "not_subscribed",
+        "state": "subscribed",
         "opt_in_level": "single_opt_in",
-        "consent_updated_at": null
+        "consent_updated_at": "2024-08-27T10:05:10+01:00"
       },
       "sms_marketing_consent": {
         "state": "not_subscribed",
@@ -216,27 +218,27 @@
         "consent_updated_at": null,
         "consent_collected_from": "SHOPIFY"
       },
-      "tags": "",
+      "tags": "TL Buyer",
       "currency": "EUR",
       "tax_exemptions": [],
-      "admin_graphql_api_id": "gid://shopify/Customer/22748896854365",
+      "admin_graphql_api_id": "gid://shopify/Customer/8383612191069",
       "default_address": {
-        "id": 32904406368605,
-        "customer_id": 22748896854365,
-        "first_name": "Nackou ",
-        "last_name": "DIAOUNE",
-        "company": "Opera Garnier (Arteum)",
-        "address1": "Place Jacques Rouche",
-        "address2": "(En face du 8 rue Halevy)",
-        "city": "Paris",
-        "province": null,
-        "country": "France",
-        "zip": "75009",
-        "phone": "+33764365279",
-        "name": "Nackou  DIAOUNE",
+        "id": 10545879449949,
+        "customer_id": 8383612191069,
+        "first_name": "Charlotte ",
+        "last_name": "TOT JENSEN",
+        "company": "Shades by igen i brug",
+        "address1": "Bjergegade 1D",
+        "address2": "",
+        "city": "Helsingor",
+        "province": "",
+        "country": "Denmark",
+        "zip": "DK3000",
+        "phone": "+4522915023",
+        "name": "Charlotte  TOT JENSEN",
         "province_code": null,
-        "country_code": "FR",
-        "country_name": "France",
+        "country_code": "DK",
+        "country_name": "Denmark",
         "default": true
       }
     },
@@ -244,35 +246,35 @@
     "fulfillments": [],
     "line_items": [
       {
-        "id": 34368165904733,
-        "admin_graphql_api_id": "gid://shopify/LineItem/34368165904733",
+        "id": 34371291480413,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291480413",
         "attributed_staffs": [],
-        "current_quantity": 6,
-        "fulfillable_quantity": 6,
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
         "fulfillment_service": "manual",
         "fulfillment_status": null,
         "gift_card": false,
         "grams": 0,
-        "name": "Venetian Masquerade Brooch Pin",
-        "price": "23.50",
+        "name": "White Breasted Hedgehog Brooch Pin",
+        "price": "32.50",
         "price_set": {
           "shop_money": {
-            "amount": "23.50",
+            "amount": "32.50",
             "currency_code": "EUR"
           },
           "presentment_money": {
-            "amount": "23.50",
+            "amount": "32.50",
             "currency_code": "EUR"
           }
         },
         "product_exists": true,
-        "product_id": 8961414168925,
+        "product_id": 9494489432413,
         "properties": [],
-        "quantity": 6,
+        "quantity": 2,
         "requires_shipping": true,
-        "sku": "TL-B-179",
+        "sku": "TL-B-833",
         "taxable": false,
-        "title": "Venetian Masquerade Brooch Pin",
+        "title": "White Breasted Hedgehog Brooch Pin",
         "total_discount": "0.00",
         "total_discount_set": {
           "shop_money": {
@@ -284,34 +286,17 @@
             "currency_code": "EUR"
           }
         },
-        "variant_id": 50000797270365,
-        "variant_inventory_management": "shopify",
+        "variant_id": 52146320900445,
+        "variant_inventory_management": null,
         "variant_title": null,
         "vendor": "Trovelore",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
-          }
-        ],
+        "tax_lines": [],
         "duties": [],
         "discount_allocations": []
       },
       {
-        "id": 34368165937501,
-        "admin_graphql_api_id": "gid://shopify/LineItem/34368165937501",
+        "id": 34371291513181,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291513181",
         "attributed_staffs": [],
         "current_quantity": 2,
         "fulfillable_quantity": 2,
@@ -319,73 +304,7 @@
         "fulfillment_status": null,
         "gift_card": false,
         "grams": 1,
-        "name": "Treble Love Brooch Pin",
-        "price": "23.00",
-        "price_set": {
-          "shop_money": {
-            "amount": "23.00",
-            "currency_code": "EUR"
-          },
-          "presentment_money": {
-            "amount": "23.00",
-            "currency_code": "EUR"
-          }
-        },
-        "product_exists": true,
-        "product_id": 1668221075499,
-        "properties": [],
-        "quantity": 2,
-        "requires_shipping": true,
-        "sku": "TL-B-181",
-        "taxable": false,
-        "title": "Treble Love Brooch Pin",
-        "total_discount": "0.00",
-        "total_discount_set": {
-          "shop_money": {
-            "amount": "0.00",
-            "currency_code": "EUR"
-          },
-          "presentment_money": {
-            "amount": "0.00",
-            "currency_code": "EUR"
-          }
-        },
-        "variant_id": 15372159418411,
-        "variant_inventory_management": null,
-        "variant_title": null,
-        "vendor": "Trovelore",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
-          }
-        ],
-        "duties": [],
-        "discount_allocations": []
-      },
-      {
-        "id": 34368165970269,
-        "admin_graphql_api_id": "gid://shopify/LineItem/34368165970269",
-        "attributed_staffs": [],
-        "current_quantity": 6,
-        "fulfillable_quantity": 6,
-        "fulfillment_service": "manual",
-        "fulfillment_status": null,
-        "gift_card": false,
-        "grams": 0,
-        "name": "Butterfly Masquerade Brooch Pin",
+        "name": "Rose Bee Brooch Pin",
         "price": "23.50",
         "price_set": {
           "shop_money": {
@@ -398,13 +317,13 @@
           }
         },
         "product_exists": true,
-        "product_id": 8961419018589,
+        "product_id": 1864684077099,
         "properties": [],
-        "quantity": 6,
+        "quantity": 2,
         "requires_shipping": true,
-        "sku": "TL-B-180",
+        "sku": "TL-B-251",
         "taxable": false,
-        "title": "Butterfly Masquerade Brooch Pin",
+        "title": "Rose Bee Brooch Pin",
         "total_discount": "0.00",
         "total_discount_set": {
           "shop_money": {
@@ -416,61 +335,44 @@
             "currency_code": "EUR"
           }
         },
-        "variant_id": 50000808411485,
-        "variant_inventory_management": "shopify",
+        "variant_id": 17116597420075,
+        "variant_inventory_management": null,
         "variant_title": null,
         "vendor": "Trovelore",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
-          }
-        ],
+        "tax_lines": [],
         "duties": [],
         "discount_allocations": []
       },
       {
-        "id": 34368166003037,
-        "admin_graphql_api_id": "gid://shopify/LineItem/34368166003037",
+        "id": 34371291545949,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291545949",
         "attributed_staffs": [],
-        "current_quantity": 6,
-        "fulfillable_quantity": 6,
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
         "fulfillment_service": "manual",
         "fulfillment_status": null,
         "gift_card": false,
         "grams": 0,
-        "name": "Harp Brooch Pin",
-        "price": "22.50",
+        "name": "Bombus Bee Brooch Pin",
+        "price": "27.50",
         "price_set": {
           "shop_money": {
-            "amount": "22.50",
+            "amount": "27.50",
             "currency_code": "EUR"
           },
           "presentment_money": {
-            "amount": "22.50",
+            "amount": "27.50",
             "currency_code": "EUR"
           }
         },
         "product_exists": true,
-        "product_id": 4574740152393,
+        "product_id": 9494488088925,
         "properties": [],
-        "quantity": 6,
+        "quantity": 2,
         "requires_shipping": true,
-        "sku": "TL-B-184",
+        "sku": "TL-B-860",
         "taxable": false,
-        "title": "Harp Brooch Pin",
+        "title": "Bombus Bee Brooch Pin",
         "total_discount": "0.00",
         "total_discount_set": {
           "shop_money": {
@@ -482,61 +384,44 @@
             "currency_code": "EUR"
           }
         },
-        "variant_id": 31841108590665,
+        "variant_id": 52146318311773,
         "variant_inventory_management": null,
         "variant_title": null,
         "vendor": "Trovelore",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
-          }
-        ],
+        "tax_lines": [],
         "duties": [],
         "discount_allocations": []
       },
       {
-        "id": 34368166035805,
-        "admin_graphql_api_id": "gid://shopify/LineItem/34368166035805",
+        "id": 34371291578717,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291578717",
         "attributed_staffs": [],
-        "current_quantity": 6,
-        "fulfillable_quantity": 6,
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
         "fulfillment_service": "manual",
         "fulfillment_status": null,
         "gift_card": false,
         "grams": 0,
-        "name": "Treble Brooch Pin",
-        "price": "20.00",
+        "name": "Sharpshooter Beetle Brooch Pin",
+        "price": "25.50",
         "price_set": {
           "shop_money": {
-            "amount": "20.00",
+            "amount": "25.50",
             "currency_code": "EUR"
           },
           "presentment_money": {
-            "amount": "20.00",
+            "amount": "25.50",
             "currency_code": "EUR"
           }
         },
         "product_exists": true,
-        "product_id": 4574739464265,
+        "product_id": 8509851205981,
         "properties": [],
-        "quantity": 6,
+        "quantity": 2,
         "requires_shipping": true,
-        "sku": "TL-B-182",
+        "sku": "TL-B-723",
         "taxable": false,
-        "title": "Treble Brooch Pin",
+        "title": "Sharpshooter Beetle Brooch Pin",
         "total_discount": "0.00",
         "total_discount_set": {
           "shop_money": {
@@ -548,109 +433,704 @@
             "currency_code": "EUR"
           }
         },
-        "variant_id": 31841107968073,
+        "variant_id": 48077613957469,
         "variant_inventory_management": null,
         "variant_title": null,
         "vendor": "Trovelore",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291611485,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291611485",
+        "attributed_staffs": [],
+        "current_quantity": 1,
+        "fulfillable_quantity": 1,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 1,
+        "name": "Cellar Spider Brooch Pin",
+        "price": "31.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "31.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "31.00",
+            "currency_code": "EUR"
           }
-        ],
+        },
+        "product_exists": true,
+        "product_id": 4546007072841,
+        "properties": [],
+        "quantity": 1,
+        "requires_shipping": true,
+        "sku": "TL-B-409",
+        "taxable": false,
+        "title": "Cellar Spider Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 31769813483593,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291644253,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291644253",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Eurasian Hoopoe Brooch Pin",
+        "price": "28.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "28.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "28.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8509850648925,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-733",
+        "taxable": false,
+        "title": "Eurasian Hoopoe Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 48077613334877,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291677021,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291677021",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Jewelled Peacock Brooch Pin",
+        "price": "34.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "34.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "34.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6886717521993,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-669",
+        "taxable": false,
+        "title": "Jewelled Peacock Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 40440214159433,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291709789,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291709789",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Morpho Godarti Butterfly Brooch Pin",
+        "price": "25.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "25.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "25.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8846603026781,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-777",
+        "taxable": false,
+        "title": "Morpho Godarti Butterfly Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 49540686578013,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291742557,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291742557",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Green Darner Dragonfly Brooch Pin",
+        "price": "26.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "26.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "26.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6643243384905,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-586",
+        "taxable": false,
+        "title": "Green Darner Dragonfly Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 39536130719817,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291775325,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291775325",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Mimosa Brooch Pin",
+        "price": "36.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "36.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "36.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8879129166173,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-816",
+        "taxable": false,
+        "title": "Mimosa Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 49682850546013,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291808093,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291808093",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Globe Amaranth Brooch Pin",
+        "price": "29.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "29.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "29.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6886723780681,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-689",
+        "taxable": false,
+        "title": "Globe Amaranth Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 40440257904713,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291840861,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291840861",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Banana Brooch Pin",
+        "price": "24.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "24.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "24.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8509849928029,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-719",
+        "taxable": false,
+        "title": "Banana Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 48077611925853,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291873629,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291873629",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 1,
+        "name": "Amalfi Lemons Brooch Pin",
+        "price": "26.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "26.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "26.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6588606709833,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-511",
+        "taxable": false,
+        "title": "Amalfi Lemons Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 39368046444617,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291906397,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291906397",
+        "attributed_staffs": [],
+        "current_quantity": 1,
+        "fulfillable_quantity": 1,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Frida's Flowers Brooch Pin",
+        "price": "33.50",
+        "price_set": {
+          "shop_money": {
+            "amount": "33.50",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "33.50",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6886728597577,
+        "properties": [],
+        "quantity": 1,
+        "requires_shipping": true,
+        "sku": "TL-B-691",
+        "taxable": false,
+        "title": "Frida's Flowers Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 40440289853513,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291939165,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291939165",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Inner Eye Brooch Pin",
+        "price": "33.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "33.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "33.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 14950400491869,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-902",
+        "taxable": false,
+        "title": "Inner Eye Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 55648403816797,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371291971933,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371291971933",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "True Lobster Brooch Pin",
+        "price": "28.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "28.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "28.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 6886725582921,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-657",
+        "taxable": false,
+        "title": "True Lobster Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 40440276910153,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
+        "duties": [],
+        "discount_allocations": []
+      },
+      {
+        "id": 34371292004701,
+        "admin_graphql_api_id": "gid://shopify/LineItem/34371292004701",
+        "attributed_staffs": [],
+        "current_quantity": 2,
+        "fulfillable_quantity": 2,
+        "fulfillment_service": "manual",
+        "fulfillment_status": null,
+        "gift_card": false,
+        "grams": 0,
+        "name": "Sea Nettle Jellyfish Brooch Pin",
+        "price": "39.00",
+        "price_set": {
+          "shop_money": {
+            "amount": "39.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "39.00",
+            "currency_code": "EUR"
+          }
+        },
+        "product_exists": true,
+        "product_id": 8846586216797,
+        "properties": [],
+        "quantity": 2,
+        "requires_shipping": true,
+        "sku": "TL-B-774",
+        "taxable": false,
+        "title": "Sea Nettle Jellyfish Brooch Pin",
+        "total_discount": "0.00",
+        "total_discount_set": {
+          "shop_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          },
+          "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "EUR"
+          }
+        },
+        "variant_id": 49540605477213,
+        "variant_inventory_management": null,
+        "variant_title": null,
+        "vendor": "Trovelore",
+        "tax_lines": [],
         "duties": [],
         "discount_allocations": []
       }
     ],
-    "payment_terms": {
-      "id": 56869683549,
-      "created_at": "2025-03-29T06:45:09+00:00",
-      "due_in_days": null,
-      "payment_schedules": [],
-      "payment_terms_name": "Due on receipt",
-      "payment_terms_type": "receipt",
-      "updated_at": "2025-03-29T06:45:09+00:00"
-    },
+    "payment_terms": null,
     "refunds": [],
     "shipping_address": {
-      "first_name": "Nackou",
-      "address1": "Place Jacques Rouche",
-      "phone": "+33764365279",
-      "city": "Paris",
-      "zip": "75009",
+      "first_name": "Charlotte",
+      "address1": "Bjergegade 1D",
+      "phone": "+4522915023",
+      "city": "Helsingor",
+      "zip": "DK3000",
       "province": null,
-      "country": "France",
-      "last_name": "DIAOUNE",
-      "address2": "(En face du 8 rue Halevy)",
-      "company": "Opera Garnier (Arteum)",
-      "latitude": 48.8718161,
-      "longitude": 2.332621,
-      "name": "Nackou DIAOUNE",
-      "country_code": "FR",
+      "country": "Denmark",
+      "last_name": "TOT JENSEN",
+      "address2": null,
+      "company": "Shades by igen i brug",
+      "latitude": 56.034668,
+      "longitude": 12.612207,
+      "name": "Charlotte TOT JENSEN",
+      "country_code": "DK",
       "province_code": null
     },
     "shipping_lines": [
       {
-        "id": 10666922246493,
+        "id": 10668016337245,
         "carrier_identifier": null,
-        "code": "EU Zone 1 S",
-        "discounted_price": "34.00",
+        "code": "EU Zone 2 S",
+        "discounted_price": "36.00",
         "discounted_price_set": {
           "shop_money": {
-            "amount": "34.00",
+            "amount": "36.00",
             "currency_code": "EUR"
           },
           "presentment_money": {
-            "amount": "34.00",
+            "amount": "36.00",
             "currency_code": "EUR"
           }
         },
         "is_removed": false,
         "phone": null,
-        "price": "34.00",
+        "price": "36.00",
         "price_set": {
           "shop_money": {
-            "amount": "34.00",
+            "amount": "36.00",
             "currency_code": "EUR"
           },
           "presentment_money": {
-            "amount": "34.00",
+            "amount": "36.00",
             "currency_code": "EUR"
           }
         },
         "requested_fulfillment_service_id": null,
         "source": "shopify",
-        "title": "EU Zone 1 S",
-        "tax_lines": [
-          {
-            "channel_liable": false,
-            "price": "0.00",
-            "price_set": {
-              "shop_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              },
-              "presentment_money": {
-                "amount": "0.00",
-                "currency_code": "EUR"
-              }
-            },
-            "rate": 0.2,
-            "title": "FR TVA"
-          }
-        ],
+        "title": "EU Zone 2 S",
+        "tax_lines": [],
         "discount_allocations": []
       }
     ]
