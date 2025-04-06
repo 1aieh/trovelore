@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# README.md
+
+# Trovelore Dashboard
+
+A comprehensive order management dashboard for tracking orders, buyers, and shipping blocks with Shopify integration.
+
+## Overview
+
+This application provides a complete solution for managing the order workflow from initial customer contact through payment processing to shipping. It features:
+
+- Shopify API integration for automatic order import
+- Payment tracking with 25% deposit system
+- Block management for grouping orders for shipping
+- Email notification system for payment reminders and shipping updates
+- Role-based access control for different user types
+
+## Tech Stack
+
+- **Frontend**: Next.js, Shadcn UI, React
+- **Backend**: Next.js API routes
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **API Integration**: Shopify API
+
+## Workflow
+
+The application implements the following workflow:
+
+1. Orders are received via email or created in Shopify
+2. Orders are imported into the dashboard via Shopify API
+3. 25% deposit is requested from customers
+4. Upon deposit payment, orders are placed into production blocks
+5. When ready to ship, final payment is requested
+6. After payment, orders are shipped from India to Portugal
+7. Portugal office receives order details and manages delivery
+
+## Features
+
+### Order Management
+- Comprehensive order listing with filtering and sorting
+- Detailed order view with payment and shipping information
+- Order creation and editing forms
+- Product management within orders
+
+### Payment Tracking
+- 25% deposit system with automatic calculation
+- Payment recording interface
+- Payment status visualization
+- Payment reminder system
+
+### Block Management
+- Group orders into shipping blocks
+- Track block shipping status
+- Generate block reports for production
+
+### Email Notifications
+- Customizable email templates
+- Automated payment reminders
+- Shipping notifications
+- Email history tracking
+
+### Role-Based Access
+- Admin view with full access
+- Portugal Office view focused on shipping and delivery
+- Viewer role for read-only access
 
 ## Getting Started
 
-First, run the development server:
+See the [DEPLOYMENT.md](./DEPLOYMENT.md) file for detailed setup and deployment instructions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+For testing procedures, refer to the [TESTING.md](./TESTING.md) file.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## License
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proprietary - All rights reserved

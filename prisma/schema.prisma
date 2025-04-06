@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime  @default(now())
+  order_ref     String?   @unique
+  order_date    DateTime?
+  order_from    String?
+  block_id      Int?
+  buyer_id      Int?
+  buyer         String?
+  city          String?
+  zip_code      String?
+  country       String?
+  zone          String?
+  ship_date     DateTime?
+  ship_status   String?
+  received      String?
+  products      Json?
+  total_qty     Int?
+  value         Decimal?  @db.Decimal(10, 2)
+  shipping      Decimal?  @db.Decimal(10, 2)
+  total_amt     Decimal?  @db.Decimal(10, 2)
+  vat_amt       Decimal?  @db.Decimal(10, 2)
+  total_topay   Decimal?  @db.Decimal(10, 2)
+  payment_status String?
+  deposit_25    Decimal?  @db.Decimal(10, 2)
+  payment_1     Decimal?  @db.Decimal(10, 2)
+  date_p1       DateTime?
+  payment_2     Decimal?  @db.Decimal(10, 2)
+  date_p2       DateTime?
+  payment_3     Decimal?  @db.Decimal(10, 2)
+  date_p3       DateTime?
+  payment_4     Decimal?  @db.Decimal(10, 2)
+  date_p4       DateTime?
+  shopify_id    String?
+  source        String?
+  email         String?
+  
+  // New fields for improved tracking
+  last_updated  DateTime  @updatedAt
+  notes         String?   @db.Text
+  
+  // Email notification tracking
+  deposit_reminder_sent      DateTime?
+  payment_confirmation_sent  DateTime?
+  shipping_notification_sent DateTime?
+  
+  // Relationships
+  block         Block?     @relation(fields: [block_id], references: [id])
+  buyer_rel     Buyer?     @relation(fields: [buyer_id], references: [id])
+  
+  @@index([block_id])
+  @@index([buyer_id])
+  @@index([shopify_id])
+  @@index([payment_status])
+  @@index([ship_status])
+  @@index([order_date])
+}
+
+model Buyer {
+  id                   Int       @id @default(autoincrement())
+  created_at           DateTime  @default(now())
+  name                 String?
+  buyer_no             String?
+  billing_name         String?
+  billing_address      String?   @db.Text
+  vat                  String?
+  delivery_name        String?
+  delivery_address     String?   @db.Text
+  delivery_contact     String?
+  delivery_contact_no  String?
+  delivery_contact_email String?
+  
+  // New fields for improved tracking
+  last_updated         DateTime  @updatedAt
+  notes                String?   @db.Text
+  
+  // Relationships
+  orders               Order[]
+  
+  @@index([name])
+  @@index([buyer_no])
+}
+
+model Block {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now())
+  name        String?
+  ship_month  DateTime?
+  ship_status String?
+  
+  // New fields for improved tracking
+  last_updated DateTime  @updatedAt
+  notes        String?   @db.Text
+  
+  // Relationships
+  orders      Order[]
+  
+  @@index([ship_month])
+  @@index([ship_status])
+}
+
+// New model for email notifications
+model EmailNotification {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now())
+  order_ref   String?
+  order_id    Int?
+  email_type  String    // "deposit_reminder", "payment_confirmation", "shipping_notification"
+  recipient   String
+  subject     String
+  body        String    @db.Text
+  status      String    // "sent", "failed", "pending"
+  sent_at     DateTime?
+  error       String?   @db.Text
+  
+  @@index([order_ref])
+  @@index([order_id])
+  @@index([email_type])
+  @@index([status])
+}
+
+// New model for user roles and permissions
+model User {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  email      String    @unique
+  name       String?
+  role       String    // "admin", "portugal_office", "viewer"
+  last_login DateTime?
+  
+  @@index([email])
+  @@index([role])
+}

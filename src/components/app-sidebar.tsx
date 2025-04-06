@@ -1,180 +1,101 @@
+// src/components/app-sidebar.tsx
 "use client"
 
-import * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
-  IconCamera,
+  IconBuildingStore,
+  IconCalendarEvent,
   IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
+  IconCreditCard,
+  IconFileInvoice,
+  IconPackage,
   IconSettings,
+  IconTruckDelivery,
   IconUsers,
 } from "@tabler/icons-react"
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Sidebar, SidebarFooter, SidebarHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavMain } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
+interface AppSidebarProps {
+  variant?: "drawer" | "inset"
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ variant = "drawer" }: AppSidebarProps) {
+  const pathname = usePathname()
+
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+    <Sidebar variant={variant}>
+      <SidebarHeader className="border-b border-border">
+        <Link href="/" className="flex items-center gap-2 font-semibold">
+          <IconPackage className="h-6 w-6" />
+          <span className="text-xl font-bold">Trovelore</span>
+        </Link>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
-      </SidebarContent>
+      <SidebarMain className="flex flex-col gap-4">
+        <SidebarNav>
+          <SidebarNavMain>
+            <SidebarNavLink asChild active={pathname === "/dashboard"}>
+              <Link href="/dashboard">
+                <IconChartBar className="h-4 w-4" />
+                Dashboard
+              </Link>
+            </SidebarNavLink>
+            <SidebarNavLink asChild active={pathname === "/orders" || pathname.startsWith("/orders/")}>
+              <Link href="/orders">
+                <IconFileInvoice className="h-4 w-4" />
+                Orders
+              </Link>
+            </SidebarNavLink>
+            <SidebarNavLink asChild active={pathname === "/blocks" || pathname.startsWith("/blocks/")}>
+              <Link href="/blocks">
+                <IconCalendarEvent className="h-4 w-4" />
+                Blocks
+              </Link>
+            </SidebarNavLink>
+            <SidebarNavLink asChild active={pathname === "/buyers" || pathname.startsWith("/buyers/")}>
+              <Link href="/buyers">
+                <IconUsers className="h-4 w-4" />
+                Buyers
+              </Link>
+            </SidebarNavLink>
+            <SidebarNavLink asChild active={pathname === "/payments" || pathname.startsWith("/payments/")}>
+              <Link href="/payments">
+                <IconCreditCard className="h-4 w-4" />
+                Payments
+              </Link>
+            </SidebarNavLink>
+            <SidebarNavLink asChild active={pathname === "/shipping" || pathname.startsWith("/shipping/")}>
+              <Link href="/shipping">
+                <IconTruckDelivery className="h-4 w-4" />
+                Shipping
+              </Link>
+            </SidebarNavLink>
+          </SidebarNavMain>
+        </SidebarNav>
+        <SidebarNav>
+          <SidebarNavHeader>
+            <SidebarNavHeaderTitle>Integrations</SidebarNavHeaderTitle>
+          </SidebarNavHeader>
+          <SidebarNavMain>
+            <SidebarNavLink asChild active={pathname === "/shopify" || pathname.startsWith("/shopify/")}>
+              <Link href="/shopify">
+                <IconBuildingStore className="h-4 w-4" />
+                Shopify
+              </Link>
+            </SidebarNavLink>
+          </SidebarNavMain>
+        </SidebarNav>
+      </SidebarMain>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <Button variant="ghost" size="icon" asChild className="w-full justify-start gap-2">
+          <Link href="/settings">
+            <IconSettings className="h-4 w-4" />
+            <span>Settings</span>
+          </Link>
+        </Button>
       </SidebarFooter>
     </Sidebar>
   )
