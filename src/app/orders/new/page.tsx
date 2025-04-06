@@ -72,8 +72,7 @@ export default function NewOrderPage() {
   
   // Handle buyer selection
   const handleBuyerSelect = (buyerId: string) => {
-    // Add a type guard to ensure b.id exists before comparing
-    const selectedBuyer = buyers.find(b => b.id !== undefined && b.id.toString() === buyerId)
+    const selectedBuyer = buyers.find(b => b.id.toString() === buyerId)
     if (selectedBuyer) {
       setOrder(prev => ({
         ...prev,
@@ -246,9 +245,7 @@ export default function NewOrderPage() {
                       </SelectTrigger>
                       <SelectContent>
                         {buyers.map((buyer) => (
-                          <SelectItem 
-                            key={buyer.id} 
-                            value={buyer.id !== undefined ? buyer.id.toString() : ""}>
+                          <SelectItem key={buyer.id} value={buyer.id.toString()}>
                             {buyer.name}
                           </SelectItem>
                         ))}
