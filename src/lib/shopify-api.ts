@@ -49,8 +49,8 @@ function safeParseFloat(value: string | number | null | undefined): number {
 export async function fetchShopifyOrders(
   page = 1,
   limit = 50,
-  sinceId = null,
-  createdAtMin = null
+  sinceId: string | null = null,
+  createdAtMin: string | null = null
 ): Promise<{ orders: Order[]; hasMore: boolean; nextSinceId: string | null }> {
   validateEnvironmentVariables();
 
@@ -241,7 +241,7 @@ export function mapShopifyOrderToOrder(shopifyOrder: any): Order {
       shopify_id: shopifyOrder.id.toString(),
       source: "Shopify",
       // Include additional fields for frontend use
-      email: shopifyOrder.email || customer.email || "",
+      email: customer.email || "",
       line_items: lineItems,
     };
     

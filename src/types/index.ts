@@ -115,6 +115,7 @@ export interface Order {
   subtotal_price?: string;
   financial_status?: string;
   lineItems?: OrderItem[]; // For frontend use
+  email: string;
 }
 
 // This is a simplified type for displaying in a table.
@@ -172,4 +173,66 @@ export interface Image {
   position: number;
   admin_graphql_api_id: string;
   src: string;
+}
+
+// Add User and UserRole types to match what's used in auth.ts
+
+// Add Buyer interface based on the Prisma schema
+export interface Buyer {
+  id?: number;
+  created_at?: string | Date;
+  name?: string;
+  buyer_no?: string;
+  billing_name?: string;
+  billing_address?: string;
+  vat?: string;
+  delivery_name?: string;
+  delivery_address?: string;
+  delivery_contact?: string;
+  delivery_contact_no?: string;
+  delivery_contact_email?: string;
+  last_updated?: string | Date;
+  notes?: string;
+}
+
+// Add EmailTemplate interface for email templates
+export interface EmailTemplate {
+  id?: number;
+  type: EmailTemplateType;
+  subject: string;
+  content: string;
+  created_at?: string | Date;
+  updated_at?: string | Date;
+}
+
+// Add EmailLog interface for tracking sent emails
+export interface EmailLog {
+  id?: number;
+  order_id: number;
+  buyer_id: number;
+  email_type: EmailTemplateType;
+  recipient: string;
+  subject: string;
+  sent_at: string | Date;
+}
+
+// Email template types (already defined in email-service.ts, but should be here)
+export type EmailTemplateType = 
+  | 'deposit_reminder'
+  | 'deposit_confirmation'
+  | 'final_payment_reminder'
+  | 'payment_confirmation'
+  | 'shipping_notification'
+  | 'custom';
+
+// User role type
+export type UserRole = 'admin' | 'portugal_office' | 'viewer';
+
+// User interface
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  password?: string; // Optional for creation/updates
 }

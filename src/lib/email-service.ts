@@ -1,10 +1,10 @@
 // src/lib/email-service.ts
 import { createClient } from '@supabase/supabase-js'
-import { supabaseUrl, supabaseKey } from '@/lib/supabaseClient'
+import { supabaseUrl, supabaseAnonKey } from '@/lib/supabaseClient'
 import { Order, Buyer, EmailTemplate, EmailLog } from '@/types'
 
 // Initialize Supabase client
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Email template types
 export type EmailTemplateType = 

@@ -1,10 +1,10 @@
 // src/lib/auth.ts
 import { createClient } from '@supabase/supabase-js'
-import { supabaseUrl, supabaseKey } from '@/lib/supabaseClient'
+import { supabaseUrl, supabaseAnonKey } from '@/lib/supabaseClient'
 import { User, UserRole } from '@/types'
 
 // Initialize Supabase client
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // User roles
 export const ROLES = {

@@ -137,6 +137,18 @@ async function processOrders(orders: any[], forceProcess: boolean) {
   let updatedOrdersCount = 0;
   const errorDetails: string[] = [];
 
+  // Add a check to ensure supabase is initialized
+  if (!supabase) {
+    console.error("Supabase client not initialized in processOrders");
+    return {
+      newOrdersCount,
+      skippedOrdersCount,
+      errorOrdersCount: orders.length,
+      updatedOrdersCount,
+      errorDetails: ["Database connection failed in processOrders"]
+    };
+  }
+
   for (const order of orders) {
     // Use the shopify_id field which is already mapped
     const shopifyId = order.shopify_id;
