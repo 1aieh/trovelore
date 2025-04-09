@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -18,55 +18,17 @@ import {
   ChevronRightIcon,
   EllipsisIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -77,7 +39,7 @@ import {
 } from "@/components/ui/table";
 
 // Define the type for each order row that the table will display.
-import { OrderRow } from "@/types";
+import { OrderItem, OrderRow, Order } from "@/types";
 
 // Add a custom event for Shopify sync completion
 const SHOPIFY_SYNC_COMPLETE_EVENT = "shopify-sync-complete";
@@ -142,7 +104,7 @@ const columns: ColumnDef<OrderRow>[] = [
   },
 ];
 
-function RowActions({ row }: { row: any }) {
+function RowActions({ row }: { row: { original: OrderRow } }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -177,7 +139,7 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
   const id = useId();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "order_ref", desc: false },
+    { id: "order_date", desc: true },
   ]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -189,27 +151,40 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
   // Add a refresh trigger
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Fetch data from Supabase
+  // Fetch data from API
   useEffect(() => {
     async function fetchOrders() {
       try {
-        console.log("OrdersTable: Fetching orders from Supabase...");
+        console.log("OrdersTable: Fetching orders...");
         setLoading(true);
-        const { supabase } = await import('@/lib/supabaseClient');
-        const { data: orders, error } = await supabase
-          .from('orders')
-          .select('*');
+
+        // Build query parameters
+        const params = new URLSearchParams({
+          page: (pagination.pageIndex + 1).toString(),
+          pageSize: pagination.pageSize.toString(),
+          orderBy: sorting[0]?.id || "order_date",
+          order: sorting[0]?.desc ? "desc" : "asc",
+        });
+
+        // Add search parameter if there's a filter
+        const orderRefFilter = table.getColumn("order_ref")?.getFilterValue() as string;
+        if (orderRefFilter) {
+          params.set("search", orderRefFilter);
+        }
+
+        // Fetch orders from API
+        const response = await fetch(`/api/orders?${params}`);
         
-        if (error) {
-          console.error('Error fetching orders:', error);
-          return;
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        console.log(`OrdersTable: Fetched ${orders?.length || 0} orders from Supabase`);
+        const result = await response.json();
+        console.log(`OrdersTable: Fetched ${result.data?.length || 0} orders`);
         
         // Transform the data to match OrderRow type
-        const formattedOrders: OrderRow[] = (orders || []).map(order => ({
-          id: order.id.toString(),
+        const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
+          id: order.id?.toString() || '',
           order_ref: order.order_ref || '',
           order_date: order.order_date || '',
           buyer: order.buyer || '',
@@ -222,6 +197,7 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
         setData(formattedOrders);
       } catch (err) {
         console.error('Failed to fetch orders:', err);
+        // TODO: Add error toast or notification here
       } finally {
         setLoading(false);
       }

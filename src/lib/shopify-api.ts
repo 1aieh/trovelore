@@ -1,8 +1,72 @@
-import { Order, OrderItem } from "@/types";
+import { Order, OrderItem, Product } from "@/types";
 
 const SHOPIFY_STORE_URL = process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL?.trim();
 const SHOPIFY_API_PASSWORD = process.env.NEXT_PUBLIC_SHOPIFY_API_PASSWORD?.trim();
 const SHOPIFY_API_KEY = process.env.NEXT_PUBLIC_SHOPIFY_API_KEY?.trim();
+
+export interface ShopifyPaginationInfo {
+  hasNextPage: boolean;
+  endCursor?: string;
+}
+
+// Function to fetch Shopify products
+export async function fetchShopifyProducts(params: {
+  limit?: number;
+  cursor?: string;
+  query?: string;
+  ids?: string[];  // Array of product IDs to fetch
+}): Promise<{ products: Product[]; pagination: ShopifyPaginationInfo }> {
+  if (!SHOPIFY_STORE_URL || !SHOPIFY_API_PASSWORD || !SHOPIFY_API_KEY) {
+    throw new Error("Missing Shopify API credentials for products");
+  }
+
+  try {
+    // Construct query parameters
+    const queryParams = new URLSearchParams();
+    if (params.limit) queryParams.append("limit", params.limit.toString());
+    if (params.cursor) queryParams.append("page_info", params.cursor);
+    if (params.query) queryParams.append("query", params.query);
+    if (params.ids?.length) queryParams.append("ids", params.ids.join(","));
+
+    // Fields to retrieve for products
+    queryParams.append("fields", "id,title,variants,images,product_type,admin_graphql_api_id");
+
+    // Construct the API URL
+    const apiUrl = `https://${SHOPIFY_STORE_URL}/admin/api/2023-07/products.json?${queryParams}`;
+
+    console.log("Fetching Shopify products:", apiUrl);
+
+    const response = await fetch(apiUrl, {
+      headers: {
+        "X-Shopify-Access-Token": SHOPIFY_API_PASSWORD,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Shopify API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Extract pagination info from headers
+    const linkHeader = response.headers.get("Link");
+    const hasNextPage = linkHeader?.includes('rel="next"') || false;
+    const nextPageMatch = linkHeader?.match(/page_info=([^>&]+)/);
+    const endCursor = nextPageMatch ? nextPageMatch[1] : undefined;
+
+    return {
+      products: data.products,
+      pagination: {
+        hasNextPage,
+        endCursor,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching Shopify products:", error);
+    throw error;
+  }
+}
 
 export async function fetchShopifyOrders(): Promise<Order[]> {
   if (!SHOPIFY_STORE_URL || !SHOPIFY_API_PASSWORD || !SHOPIFY_API_KEY) {
@@ -40,10 +104,25 @@ export async function fetchShopifyOrders(): Promise<Order[]> {
     // Use billing_address for address information
     const billingAddress = shopifyOrder.billing_address || {};
     
-    // Log the customer and billing address for debugging
-    console.log(`Mapping order ${shopifyOrder.id}:`);
-    console.log(`- Customer: ${JSON.stringify(customer)}`);
-    console.log(`- Billing Address: ${JSON.stringify(billingAddress)}`);
+    // Enhanced logging for customer data validation
+    console.log(`\nProcessing order ${shopifyOrder.id}:`);
+    
+    // Check and log empty or missing customer fields
+    if (!customer.first_name && !customer.last_name) {
+      console.warn(`⚠️ Order ${shopifyOrder.id}: Both first_name and last_name are missing`);
+    } else {
+      if (!customer.first_name) console.warn(`⚠️ Order ${shopifyOrder.id}: first_name is missing`);
+      if (!customer.last_name) console.warn(`⚠️ Order ${shopifyOrder.id}: last_name is missing`);
+    }
+    
+    // Detailed logging of customer data
+    console.log('Customer Details:', {
+      order_id: shopifyOrder.id,
+      first_name: customer.first_name || '(empty)',
+      last_name: customer.last_name || '(empty)',
+      email: customer.email || '(empty)',
+      raw_customer: customer
+    });
     
     // Compute total quantity from line items
     const totalQty = shopifyOrder.line_items.reduce(
@@ -68,9 +147,9 @@ export async function fetchShopifyOrders(): Promise<Order[]> {
       order_from: shopifyOrder.source_name || "Shopify",
       block_id: null,
       buyer_id: null,
-      buyer: customer.first_name && customer.last_name
-        ? `${customer.first_name} ${customer.last_name}`.trim()
-        : "",
+      buyer: [customer.first_name, customer.last_name]
+        .filter(Boolean) // Remove empty/null/undefined values
+        .join(' ') || "(No Name)", // Join with space, default to "(No Name)" if empty
       // Use billing_address fields for address information
       city: billingAddress.city || "",
       zip_code: billingAddress.zip || "",
