@@ -149,13 +149,16 @@ export async function fetchShopifyProducts(params: {
     console.log('Shopify Products API Response:', {
       status: response.status,
       headers: Object.fromEntries(response.headers.entries()),
-      products_count: data.products?.length || 0,
-      first_product: data.products?.[0] ? {
-        id: data.products[0].id,
-        title: data.products[0].title,
-        has_images: data.products[0].images?.length > 0,
-        first_image: data.products[0].images?.[0]?.src || null
-      } : 'No products'
+      requested_ids_count: params.ids?.length || 'N/A (not ID fetch)',
+      returned_products_count: data.products?.length || 0,
+      // Log details for ALL returned products, focusing on images
+      returned_products_summary: Array.isArray(data.products) ? data.products.map((p: Product) => ({
+        id: p.id, // REST ID
+        admin_graphql_api_id: p.admin_graphql_api_id, // GQL ID
+        title: p.title,
+        images_count: p.images?.length || 0,
+        first_image_src: p.images?.[0]?.src || null
+      })) : 'Invalid product data'
     });
 
     // Extract pagination info from headers
