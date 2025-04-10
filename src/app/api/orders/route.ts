@@ -17,10 +17,15 @@ export async function GET(request: NextRequest) {
     // Calculate offset
     const offset = (page - 1) * pageSize;
 
-    // Start building the query
+    // Start building the query, ordering by most recent first
     let query = supabaseAdmin
       .from('orders')
-      .select('*', { count: 'exact' });
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
+
+    console.log('API route: Fetching orders from Supabase with params:', {
+      page, pageSize, orderBy, order, search, offset
+    });
 
     // Build filter conditions
     let filterConditions = [];
@@ -78,12 +83,35 @@ export async function GET(request: NextRequest) {
     const { data: orderData, error, count } = await query;
 
     if (error) {
-      console.error("Error fetching orders:", error);
+      console.error("Error fetching orders from Supabase:", {
+        error,
+        params: {
+          page,
+          pageSize,
+          orderBy,
+          order,
+          search,
+          filters: filterConditions,
+          offset
+        }
+      });
       return NextResponse.json(
-        { error: "Failed to fetch orders" },
+        { 
+          error: "Failed to fetch orders", 
+          details: error.message,
+          code: error.code 
+        },
         { status: 500 }
       );
     }
+
+    // Log successful fetch
+    console.log(`Successfully fetched ${orderData?.length || 0} orders from Supabase`, {
+      total: count,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count || 0) / pageSize)
+    });
 
     // Return original data without formatting order_date
     // The sorting will be done on the original date format

@@ -34,6 +34,25 @@ export interface OrderItem {
   requires_shipping?: boolean;
   subtotal_price?: string;
   total_price?: string;
+  admin_graphql_api_id?: string; // Add GraphQL API ID field
+  // Image related fields from Shopify
+  image_src?: string | null;
+  product?: {
+    image?: {
+      src: string;
+    };
+    images?: Array<{ src: string }>;
+  };
+  variant?: {
+    image?: {
+      src: string;
+    };
+  };
+  image?: {
+    src: string;
+  };
+  // Debug field
+  _debug_image_source?: string;
 }
 
 // Shopify customer interface
@@ -64,6 +83,30 @@ export interface ShopifyShippingLine {
   price: string;
   title: string;
   code?: string;
+}
+
+// Raw Shopify order data structure
+export interface ShopifyRawOrder {
+  id: string;
+  order_number: string;
+  created_at: string;
+  source_name?: string;
+  customer: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+  };
+  billing_address: {
+    city?: string;
+    zip?: string;
+    country?: string;
+  };
+  line_items: OrderItem[];
+  shipping_lines?: Array<{ price: string }>;
+  subtotal_price: string;
+  total_price: string;
+  current_total_tax: string;
+  financial_status: string;
 }
 
 export interface Order {

@@ -69,21 +69,43 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      console.log(`Mapping new order: ${order.order_ref}`);
+      console.log(`Processing order: ${order.order_ref}`, {
+        shopify_id: shopifyId,
+        buyer: order.buyer,
+        has_products: order.products && order.products !== '[]',
+        created_at: order.created_at
+      });
 
-      // The order is already mapped, so we can insert it directly
-      const { error: insertError } = await supabase
+      // The order is already mapped, so we can upsert it
+      const { data: insertedOrder, error: insertError } = await supabase
         .from("orders")
-        .insert(order);
+        .upsert(order, { 
+          onConflict: 'shopify_id',
+          ignoreDuplicates: false // Update if exists
+        })
+        .select();
 
       if (insertError) {
-        console.error("Error inserting order:", insertError);
+        console.error("Error upserting order:", {
+          error: insertError,
+          order: {
+            shopify_id: shopifyId,
+            order_ref: order.order_ref,
+            buyer: order.buyer,
+            has_products: !!order.products
+          }
+        });
         errorOrdersCount++;
-        errorDetails.push(`Order ${shopifyId}: Database error when inserting`);
+        errorDetails.push(`Order ${shopifyId}: ${insertError.message} (Code: ${insertError.code})`);
         continue;
       }
 
-      console.log(`Successfully inserted order: ${shopifyId}`);
+      console.log(`Successfully processed order:`, {
+        shopify_id: shopifyId,
+        order_ref: order.order_ref,
+        buyer: order.buyer,
+        result: insertedOrder ? 'updated' : 'inserted'
+      });
       newOrdersCount++;
     }
 
@@ -93,9 +115,21 @@ export async function POST(request: NextRequest) {
       details: errorDetails,
     });
   } catch (error) {
-    console.error("Error in Shopify sync:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorDetails = error instanceof Error ? error.stack : null;
+    
+    console.error("Error in Shopify sync:", {
+      message: errorMessage,
+      stack: errorDetails,
+      error
+    });
+    
     return NextResponse.json(
-      { success: false, error: (error as Error).message },
+      { 
+        success: false, 
+        error: errorMessage,
+        details: errorDetails
+      },
       { status: 500 }
     );
   }
