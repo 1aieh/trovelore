@@ -61,6 +61,8 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   // Add data cache for pagination
   const [dataCache, setDataCache] = useState<Map<string, { data: OrderRow[]; pageCount: number }>>(new Map());
+  // Add local search term state for debouncing
+  const [localSearchTerm, setLocalSearchTerm] = useState('');
 
   // Track total pages for server-side pagination
   const [pageCount, setPageCount] = useState(0);
@@ -98,6 +100,13 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
     size: 120,
   },
   {
+    id: "order_date",
+    accessorKey: "order_date",
+    sortingFn: (rowA, rowB, columnId) => {
+      const a = new Date(rowA.getValue(columnId) as string).getTime();
+      const b = new Date(rowB.getValue(columnId) as string).getTime();
+      return a < b ? -1 : a > b ? 1 : 0;
+    },
     header: ({ column }) => {
       return (
         <Button
@@ -115,7 +124,25 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
         </Button>
       )
     },
-    accessorKey: "order_date",
+    cell: ({ getValue }) => {
+      const dateStr = getValue() as string;
+      if (!dateStr) return <span></span>;
+
+      try {
+        const date = new Date(dateStr);
+        return (
+          <span>
+            {date.toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "2-digit",
+            })}
+          </span>
+        );
+      } catch (error) {
+        return <span></span>;
+      }
+    },
     size: 120,
   },
   {
@@ -297,7 +324,7 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
       if (!response.ok) return;
 
       const result = await response.json();
-      const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
+      const rawOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
         id: order.id?.toString() || '',
         order_ref: order.order_ref || '',
         order_date: order.order_date || '',
@@ -310,13 +337,35 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
 
       setDataCache((prevCache) => {
         const newCache = new Map(prevCache);
-        newCache.set(nextCacheKey, { data: formattedOrders, pageCount: result.pagination.totalPages });
+        newCache.set(nextCacheKey, { data: rawOrders, pageCount: result.pagination.totalPages });
         return newCache;
       });
     } catch (err) {
       console.error("Failed to prefetch next page:", err);
     }
   };
+
+  // Debounce effect for search term changes
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const handleSearchChange = () => {
+      timeoutId = setTimeout(() => {
+        if (localSearchTerm) {
+          setPagination(prev => ({ ...prev, pageIndex: 0 }));
+          setSorting([{ id: "order_date", desc: true }]);
+          setColumnFilters([{ id: "order_ref", value: localSearchTerm }]);
+        } else {
+          setColumnFilters([]);
+        }
+      }, 500);
+    };
+
+    handleSearchChange();
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [localSearchTerm]);
 
   // Fetch data from API with caching and prefetching
   useEffect(() => {
@@ -370,7 +419,7 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
 
           if (!isMounted) return;
 
-          const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
+          const rawOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
             id: order.id?.toString() || '',
             order_ref: order.order_ref || '',
             order_date: order.order_date || '',
@@ -383,11 +432,11 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
 
           setDataCache((prevCache) => {
             const newCache = new Map(prevCache);
-            newCache.set(cacheKey, { data: formattedOrders, pageCount: result.pagination.totalPages });
+            newCache.set(cacheKey, { data: rawOrders, pageCount: result.pagination.totalPages });
             return newCache;
           });
 
-          setData(formattedOrders);
+          setData(rawOrders);
           setPageCount(result.pagination.totalPages);
 
           // Prefetch next page after current data is loaded
@@ -407,7 +456,7 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
     return () => {
       isMounted = false;
     };
-  }, [pagination, sorting, columnFilters, refreshTrigger, dataCache]);
+  }, [pagination, sorting, columnFilters, refreshTrigger, dataCache, prefetchNextPage, getCacheKey]);
 
   // Listen for Shopify sync completion event
   useEffect(() => {
@@ -442,19 +491,9 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
         <div className="flex-1">
           <Input
             placeholder="Search orders (Order Ref, Buyer)..."
-            value={(table.getColumn("order_ref")?.getFilterValue() as string) || ""}
+            value={localSearchTerm}
             disabled={loading}
-            onChange={(e) => {
-              const value = e.target.value;
-              // Clear other filters and reset page when searching
-              if (value) {
-                setPagination(prev => ({ ...prev, pageIndex: 0 }));
-                setSorting([{ id: "order_date", desc: true }]);
-                setColumnFilters([{ id: "order_ref", value }]);
-              } else {
-                setColumnFilters([]);
-              }
-            }}
+            onChange={(e) => setLocalSearchTerm(e.target.value)}
           />
         </div>
         <DropdownMenu>

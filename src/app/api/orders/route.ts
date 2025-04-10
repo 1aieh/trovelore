@@ -78,12 +78,15 @@ export async function GET(request: NextRequest) {
     const { data: orderData, error, count } = await query;
 
     if (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch orders' },
+        { error: "Failed to fetch orders" },
         { status: 500 }
       );
     }
+
+    // Return original data without formatting order_date
+    // The sorting will be done on the original date format
 
     // Calculate total pages
     const totalPages = count ? Math.ceil(count / pageSize) : 0;
@@ -98,7 +101,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error in orders API:', error);
+    console.error("Error in orders API:", error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

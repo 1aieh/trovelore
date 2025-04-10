@@ -174,6 +174,76 @@ The application provides the following API endpoints:
 4. **Querying & Filtering:**
    - The UI can query the **Buyers** and **Blocks** tables (using Supabase’s filtering methods) to build dynamic search fields or grouping in the dashboard.
 
+### Frontend Data Management & Performance Patterns
+
+1. **Table Data Management:**
+   - **Client-Side Caching:**
+     ```typescript
+     const [dataCache, setDataCache] = useState<Map<string, { 
+       data: OrderRow[]; 
+       pageCount: number 
+     }>>(new Map());
+     ```
+     - Cache keys combine pagination, sorting, and filter states
+     - Prevents redundant API calls for previously fetched data
+     - Improves perceived performance during navigation
+   
+   - **Prefetching Strategy:**
+     ```typescript
+     // Prefetch next page while viewing current page
+     const prefetchNextPage = async (currentCacheKey: string) => {
+       const nextPageIndex = pagination.pageIndex + 1;
+       if (nextPageIndex >= pageCount) return;
+       // ... fetch and cache next page data
+     };
+     ```
+     - Anticipates user navigation
+     - Provides seamless pagination experience
+     - Reduces visible loading states
+
+2. **Data Display & Sorting:**
+   - **Date Handling:**
+     - Store dates in ISO format for proper sorting
+     - Format for display only at render time:
+     ```typescript
+     // In table cell renderer
+     cell: ({ getValue }) => {
+       const dateStr = getValue() as string;
+       const date = new Date(dateStr);
+       return date.toLocaleDateString("en-GB", {
+         day: "numeric",
+         month: "long",
+         year: "2-digit",
+       });
+     }
+     ```
+   - **Custom Sorting Functions:**
+     ```typescript
+     sortingFn: (rowA, rowB, columnId) => {
+       const a = new Date(rowA.getValue(columnId)).getTime();
+       const b = new Date(rowB.getValue(columnId)).getTime();
+       return a < b ? -1 : a > b ? 1 : 0;
+     }
+     ```
+     - Ensures proper data type comparison
+     - Maintains data integrity while providing formatted display
+     - Separates data storage from presentation concerns
+
+These patterns should be applied across the system where similar requirements exist:
+
+- **Product Catalog:** Cache frequently accessed product data with TTL
+- **Buyer List:** Implement pagination cache for buyer search/filter
+- **Block Management:** Cache active blocks data for quick access
+- **Order History:** Apply date formatting/sorting patterns consistently
+- **Shipping Schedules:** Use proper date handling for schedule displays
+
+The key principle is maintaining a clear separation between:
+1. Data storage (ISO format dates, normalized data)
+2. Business logic (sorting, filtering, calculations)
+3. Presentation (formatting, localization)
+
+This separation ensures consistent behavior while providing optimal user experience through strategic caching and data prefetching.
+
 ---
 
 ## Conclusion
