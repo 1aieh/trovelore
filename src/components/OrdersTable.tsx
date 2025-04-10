@@ -59,9 +59,21 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
   const [loading, setLoading] = useState(initialData.length === 0);
   // Add a refresh trigger
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  // Add data cache for pagination
+  const [dataCache, setDataCache] = useState<Map<string, { data: OrderRow[]; pageCount: number }>>(new Map());
 
   // Track total pages for server-side pagination
   const [pageCount, setPageCount] = useState(0);
+
+  // Function to generate cache key based on current state
+  const getCacheKey = () => {
+    return JSON.stringify({
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      sorting: sorting,
+      columnFilters: columnFilters,
+    });
+  };
 
   const columns: ColumnDef<OrderRow>[] = [
   {
@@ -249,83 +261,153 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
     state: { sorting, pagination, columnFilters, columnVisibility },
   });
 
-  // Fetch data from API
+  // Function to prefetch next page data
+  const prefetchNextPage = async (currentCacheKey: string) => {
+    const nextPageIndex = pagination.pageIndex + 1;
+    if (nextPageIndex >= pageCount) return;
+
+    const nextCacheKey = JSON.stringify({
+      pageIndex: nextPageIndex,
+      pageSize: pagination.pageSize,
+      sorting: sorting,
+      columnFilters: columnFilters,
+    });
+
+    if (dataCache.has(nextCacheKey)) return;
+
+    try {
+      const params = new URLSearchParams({
+        page: (nextPageIndex + 1).toString(),
+        pageSize: pagination.pageSize.toString(),
+        orderBy: sorting[0]?.id || "order_date",
+        order: sorting[0]?.desc ? "desc" : "asc",
+      });
+
+      columnFilters.forEach((filter) => {
+        if (filter.value) {
+          if (filter.id === "order_ref") {
+            params.set("search", filter.value as string);
+          } else {
+            params.set(filter.id, filter.value as string);
+          }
+        }
+      });
+
+      const response = await fetch(`/api/orders?${params}`);
+      if (!response.ok) return;
+
+      const result = await response.json();
+      const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
+        id: order.id?.toString() || '',
+        order_ref: order.order_ref || '',
+        order_date: order.order_date || '',
+        buyer: order.buyer || '',
+        ship_status: order.ship_status || '',
+        products: order.products || '[]',
+        total_topay: order.total_topay || 0,
+        payment_status: order.payment_status || '',
+      }));
+
+      setDataCache((prevCache) => {
+        const newCache = new Map(prevCache);
+        newCache.set(nextCacheKey, { data: formattedOrders, pageCount: result.pagination.totalPages });
+        return newCache;
+      });
+    } catch (err) {
+      console.error("Failed to prefetch next page:", err);
+    }
+  };
+
+  // Fetch data from API with caching and prefetching
   useEffect(() => {
     let isMounted = true;
-    
+
     async function fetchOrders() {
       try {
-        console.log("OrdersTable: Fetching orders...");
-        setLoading(true);
+        const cacheKey = getCacheKey();
+        const cachedData = dataCache.get(cacheKey);
 
-          // Build query parameters
-        const params = new URLSearchParams({
-          page: (pagination.pageIndex + 1).toString(),
-          pageSize: pagination.pageSize.toString(),
-          orderBy: sorting[0]?.id || "order_date",
-          order: sorting[0]?.desc ? "desc" : "asc",
-        });
+        if (cachedData) {
+          setData(cachedData.data);
+          setPageCount(cachedData.pageCount);
+          setLoading(false);
+          
+          // Prefetch next page after current data is loaded
+          await prefetchNextPage(cacheKey);
+        } else {
+          console.log("OrdersTable: Fetching orders...");
+          setLoading(true);
 
-        // Get active filters from columnFilters
-        columnFilters.forEach(filter => {
-          if (filter.value) {
-            if (filter.id === "order_ref") {
-              params.set("search", filter.value as string);
-            } else {
-              params.set(filter.id, filter.value as string);
+          const params = new URLSearchParams({
+            page: (pagination.pageIndex + 1).toString(),
+            pageSize: pagination.pageSize.toString(),
+            orderBy: sorting[0]?.id || "order_date",
+            order: sorting[0]?.desc ? "desc" : "asc",
+          });
+
+          columnFilters.forEach((filter) => {
+            if (filter.value) {
+              if (filter.id === "order_ref") {
+                params.set("search", filter.value as string);
+              } else {
+                params.set(filter.id, filter.value as string);
+              }
             }
+          });
+
+          const response = await fetch(`/api/orders?${params}`);
+
+          if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`);
+            setData([]);
+            setPageCount(0);
+            return;
           }
-        });
 
-        // Fetch orders from API
-        const response = await fetch(`/api/orders?${params}`);
-        
-        if (!response.ok) {
-          console.error(`HTTP error! status: ${response.status}`);
-          setData([]);
-          setPageCount(0);
-          return;
+          const result = await response.json();
+          console.log(`OrdersTable: Fetched ${result.data?.length || 0} orders`);
+          console.log("Pagination info:", result.pagination);
+
+          if (!isMounted) return;
+
+          const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
+            id: order.id?.toString() || '',
+            order_ref: order.order_ref || '',
+            order_date: order.order_date || '',
+            buyer: order.buyer || '',
+            ship_status: order.ship_status || '',
+            products: order.products || '[]',
+            total_topay: order.total_topay || 0,
+            payment_status: order.payment_status || '',
+          }));
+
+          setDataCache((prevCache) => {
+            const newCache = new Map(prevCache);
+            newCache.set(cacheKey, { data: formattedOrders, pageCount: result.pagination.totalPages });
+            return newCache;
+          });
+
+          setData(formattedOrders);
+          setPageCount(result.pagination.totalPages);
+
+          // Prefetch next page after current data is loaded
+          await prefetchNextPage(cacheKey);
         }
-        
-        const result = await response.json();
-        console.log(`OrdersTable: Fetched ${result.data?.length || 0} orders`);
-        console.log('Pagination info:', result.pagination);
-
-        if (!isMounted) return;
-        
-        // Transform the data to match OrderRow type
-        const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
-          id: order.id?.toString() || '',
-          order_ref: order.order_ref || '',
-          order_date: order.order_date || '',
-          buyer: order.buyer || '',
-          ship_status: order.ship_status || '',
-          products: order.products || '[]',
-          total_topay: order.total_topay || 0,
-          payment_status: order.payment_status || '',
-        }));
-        
-        setData(formattedOrders);
-
-        // Update pagination state with server response
-        const { totalPages = 0 } = result.pagination;
-        setPageCount(totalPages);
       } catch (err) {
-        console.error('Failed to fetch orders:', err);
-        // TODO: Add error toast or notification here
+        console.error("Failed to fetch orders:", err);
       } finally {
         if (isMounted) {
           setLoading(false);
         }
       }
     }
-    
+
     fetchOrders();
 
     return () => {
       isMounted = false;
     };
-  }, [pagination, sorting, columnFilters, refreshTrigger]); // Include columnFilters in dependencies
+  }, [pagination, sorting, columnFilters, refreshTrigger, dataCache]);
 
   // Listen for Shopify sync completion event
   useEffect(() => {
