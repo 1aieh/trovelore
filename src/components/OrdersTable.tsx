@@ -17,6 +17,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   EllipsisIcon,
+  CheckIcon,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -514,8 +515,12 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
                   setSorting([{ id: "order_date", desc: true }]);
                   setColumnFilters([{ id: "ship_status", value: "Pending" }]);
                 }}
+                className="flex items-center justify-between"
               >
-                Pending Orders
+                <span>Pending Orders</span>
+                {columnFilters[0]?.id === "ship_status" && columnFilters[0]?.value === "Pending" && (
+                  <CheckIcon className="h-4 w-4" />
+                )}
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -523,8 +528,12 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
                   setSorting([{ id: "order_date", desc: true }]);
                   setColumnFilters([{ id: "ship_status", value: "Shipped" }]);
                 }}
+                className="flex items-center justify-between"
               >
-                Shipped Orders
+                <span>Shipped Orders</span>
+                {columnFilters[0]?.id === "ship_status" && columnFilters[0]?.value === "Shipped" && (
+                  <CheckIcon className="h-4 w-4" />
+                )}
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => {
@@ -532,8 +541,12 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
                   setSorting([{ id: "order_date", desc: true }]);
                   setColumnFilters([{ id: "payment_status", value: "No Payment" }]);
                 }}
+                className="flex items-center justify-between"
               >
-                Unpaid Orders
+                <span>Unpaid Orders</span>
+                {columnFilters[0]?.id === "payment_status" && columnFilters[0]?.value === "No Payment" && (
+                  <CheckIcon className="h-4 w-4" />
+                )}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
