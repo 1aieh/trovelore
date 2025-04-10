@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabaseClient";
 import { Order } from "@/types";
 
 export async function GET(request: NextRequest) {
+
   try {
     // Get query parameters for pagination and filtering
     const { searchParams } = new URL(request.url);
@@ -21,19 +22,60 @@ export async function GET(request: NextRequest) {
       .from('orders')
       .select('*', { count: 'exact' });
 
-    // Add search filter if provided
+    // Build filter conditions
+    let filterConditions = [];
+    
     if (search) {
-      query = query.or(`order_ref.ilike.%${search}%,buyer.ilike.%${search}%`);
+      filterConditions.push(`order_ref.ilike.%${search}%,buyer.ilike.%${search}%`);
     }
 
-    // Add ordering
-    query = query.order(orderBy as any, { ascending: order === 'asc' });
+    const shipStatus = searchParams.get("ship_status");
+    if (shipStatus) {
+      filterConditions.push(`ship_status.eq.${shipStatus}`);
+    }
+
+    const paymentStatus = searchParams.get("payment_status");
+    if (paymentStatus) {
+      filterConditions.push(`payment_status.eq.${paymentStatus}`);
+    }
+
+    // Apply filters if any exist
+    if (filterConditions.length > 0) {
+      query = query.or(filterConditions.join(','));
+    }
+
+    // Validate orderBy field to prevent SQL injection
+    const validColumns = ['order_ref', 'order_date', 'buyer', 'total_topay', 'payment_status', 'ship_status'];
+    if (!validColumns.includes(orderBy)) {
+      throw new Error('Invalid sort column');
+    }
+
+    // Add sorting - support multiple columns
+    const orderByFields = orderBy.split(',');
+    const sortOrders = order.split(',');
+
+    // Apply sorting for each field
+    orderByFields.forEach((field, index) => {
+      const sortOrder = sortOrders[index] || order;
+      query = query.order(field as any, { ascending: sortOrder === 'asc' });
+    });
 
     // Add pagination
     query = query.range(offset, offset + pageSize - 1);
 
+    // Log the query for debugging
+    console.log('Query params:', {
+      search,
+      shipStatus,
+      paymentStatus,
+      orderBy: orderByFields,
+      sortOrders,
+      page,
+      pageSize
+    });
+
     // Execute the query
-    const { data: orders, error, count } = await query;
+    const { data: orderData, error, count } = await query;
 
     if (error) {
       console.error('Error fetching orders:', error);
@@ -47,7 +89,7 @@ export async function GET(request: NextRequest) {
     const totalPages = count ? Math.ceil(count / pageSize) : 0;
 
     return NextResponse.json({
-      data: orders,
+      data: orderData,
       pagination: {
         page,
         pageSize,

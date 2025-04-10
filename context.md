@@ -81,6 +81,52 @@ This document outlines how the system is organized, how data flows between compo
 - **Products:**  
   Products are fetched via a dedicated `/api/products` endpoint that calls Shopify’s API. For manual orders, when a user selects products, the chosen product details are stored as a JSON snapshot in the `products` column of the order. This ensures that whether an order is fetched from Shopify or entered manually, the product data is consistent for display.
 
+### API Routes Documentation
+
+The application provides the following API endpoints:
+
+1. **Orders API (`/api/orders`)**
+   - **GET**: Fetch orders with pagination, sorting, and filtering
+     - Query params: `page`, `pageSize`, `orderBy`, `order`, `search`
+     - Returns: Paginated order list with metadata
+   - **POST**: Create a new manual order
+   - **PATCH**: Update an existing order
+   - **DELETE**: Remove an order (with validation)
+
+2. **Blocks API (`/api/blocks`)**
+   - **GET**: Fetch shipping blocks with optional status filtering
+     - Query params: `page`, `pageSize`, `search`, `status`
+     - Returns: Paginated blocks list with metadata
+   - **POST**: Create a new shipping block
+   - **PATCH**: Update an existing block
+   - **DELETE**: Remove a block (prevented if has linked orders)
+
+3. **Buyers API (`/api/buyers`)**
+   - **GET**: Fetch buyers with optional order count
+     - Query params: `page`, `pageSize`, `search`, `withOrders`
+     - Returns: Paginated buyers list with metadata
+   - **POST**: Create a new buyer (with duplicate number check)
+   - **PATCH**: Update an existing buyer
+   - **DELETE**: Remove a buyer (prevented if has linked orders)
+
+4. **Products API (`/api/products`)**
+   - **GET**: Fetch products from Shopify with pagination
+     - Query params: `limit`, `cursor`, `query`, `ids`
+     - Returns: Products list with pagination info
+     - Includes: 5-minute cache for performance
+   - **POST**: Search products for typeahead/autocomplete
+     - Body: `{ search: string, limit?: number }`
+     - Returns: Simplified product suggestions
+   - **PUT**: Get detailed info for specific products
+     - Body: `{ ids: string[] }`
+     - Returns: Full product details
+
+5. **Sync API (`/api/sync`)**
+   - **POST**: Trigger Shopify order synchronization
+     - Query params: `force` (boolean, optional)
+     - Deduplicates orders using shopify_id
+     - Dispatches completion event for UI updates
+
 ### Application Architecture: MVP & Separation of Concerns
 
 - **Model (Data Layer):**

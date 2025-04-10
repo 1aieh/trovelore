@@ -44,19 +44,86 @@ import { OrderItem, OrderRow, Order } from "@/types";
 // Add a custom event for Shopify sync completion
 const SHOPIFY_SYNC_COMPLETE_EVENT = "shopify-sync-complete";
 
-const columns: ColumnDef<OrderRow>[] = [
+export default function OrdersTable({ data: initialData = [] }: { data?: OrderRow[] }) {
+  const id = useId();
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "order_date", desc: true },
+  ]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [data, setData] = useState<OrderRow[]>(initialData);
+  const [loading, setLoading] = useState(initialData.length === 0);
+  // Add a refresh trigger
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  // Track total pages for server-side pagination
+  const [pageCount, setPageCount] = useState(0);
+
+  const columns: ColumnDef<OrderRow>[] = [
   {
-    header: "Order Ref",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="-ml-4"
+          disabled={loading}
+        >
+          Order Ref
+          {column.getIsSorted() && (
+            <span className="ml-2">
+              {column.getIsSorted() === "asc" ? "↑" : "↓"}
+            </span>
+          )}
+        </Button>
+      )
+    },
     accessorKey: "order_ref",
     size: 120,
   },
   {
-    header: "Order Date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="-ml-4"
+          disabled={loading}
+        >
+          Order Date
+          {column.getIsSorted() && (
+            <span className="ml-2">
+              {column.getIsSorted() === "asc" ? "↑" : "↓"}
+            </span>
+          )}
+        </Button>
+      )
+    },
     accessorKey: "order_date",
     size: 120,
   },
   {
-    header: "Buyer",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="-ml-4"
+          disabled={loading}
+        >
+          Buyer
+          {column.getIsSorted() && (
+            <span className="ml-2">
+              {column.getIsSorted() === "asc" ? "↑" : "↓"}
+            </span>
+          )}
+        </Button>
+      )
+    },
     accessorKey: "buyer",
     size: 180,
   },
@@ -85,13 +152,45 @@ const columns: ColumnDef<OrderRow>[] = [
     size: 200,
   },
   {
-    header: "Total To Pay",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="-ml-4"
+          disabled={loading}
+        >
+          Total To Pay
+          {column.getIsSorted() && (
+            <span className="ml-2">
+              {column.getIsSorted() === "asc" ? "↑" : "↓"}
+            </span>
+          )}
+        </Button>
+      )
+    },
     accessorKey: "total_topay",
     cell: ({ row }) => `$${row.getValue("total_topay")}`,
     size: 120,
   },
   {
-    header: "Payment Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="-ml-4"
+          disabled={loading}
+        >
+          Payment Status
+          {column.getIsSorted() && (
+            <span className="ml-2">
+              {column.getIsSorted() === "asc" ? "↑" : "↓"}
+            </span>
+          )}
+        </Button>
+      )
+    },
     accessorKey: "payment_status",
     size: 140,
   },
@@ -135,30 +234,31 @@ function RowActions({ row }: { row: { original: OrderRow } }) {
   );
 }
 
-export default function OrdersTable({ data: initialData = [] }: { data?: OrderRow[] }) {
-  const id = useId();
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "order_date", desc: true },
-  ]);
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
+  const table = useReactTable({
+    data,
+    columns,
+    pageCount, // Add total pages count
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    onPaginationChange: setPagination,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    manualPagination: true, // Enable manual pagination
+    state: { sorting, pagination, columnFilters, columnVisibility },
   });
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [data, setData] = useState<OrderRow[]>(initialData);
-  const [loading, setLoading] = useState(initialData.length === 0);
-  // Add a refresh trigger
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Fetch data from API
   useEffect(() => {
+    let isMounted = true;
+    
     async function fetchOrders() {
       try {
         console.log("OrdersTable: Fetching orders...");
         setLoading(true);
 
-        // Build query parameters
+          // Build query parameters
         const params = new URLSearchParams({
           page: (pagination.pageIndex + 1).toString(),
           pageSize: pagination.pageSize.toString(),
@@ -166,21 +266,32 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
           order: sorting[0]?.desc ? "desc" : "asc",
         });
 
-        // Add search parameter if there's a filter
-        const orderRefFilter = table.getColumn("order_ref")?.getFilterValue() as string;
-        if (orderRefFilter) {
-          params.set("search", orderRefFilter);
-        }
+        // Get active filters from columnFilters
+        columnFilters.forEach(filter => {
+          if (filter.value) {
+            if (filter.id === "order_ref") {
+              params.set("search", filter.value as string);
+            } else {
+              params.set(filter.id, filter.value as string);
+            }
+          }
+        });
 
         // Fetch orders from API
         const response = await fetch(`/api/orders?${params}`);
         
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          console.error(`HTTP error! status: ${response.status}`);
+          setData([]);
+          setPageCount(0);
+          return;
         }
         
         const result = await response.json();
         console.log(`OrdersTable: Fetched ${result.data?.length || 0} orders`);
+        console.log('Pagination info:', result.pagination);
+
+        if (!isMounted) return;
         
         // Transform the data to match OrderRow type
         const formattedOrders: OrderRow[] = (result.data || []).map((order: Order) => ({
@@ -195,16 +306,26 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
         }));
         
         setData(formattedOrders);
+
+        // Update pagination state with server response
+        const { totalPages = 0 } = result.pagination;
+        setPageCount(totalPages);
       } catch (err) {
         console.error('Failed to fetch orders:', err);
         // TODO: Add error toast or notification here
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
     
     fetchOrders();
-  }, [initialData, refreshTrigger]); // Add refreshTrigger to dependencies
+
+    return () => {
+      isMounted = false;
+    };
+  }, [pagination, sorting, columnFilters, refreshTrigger]); // Include columnFilters in dependencies
 
   // Listen for Shopify sync completion event
   useEffect(() => {
@@ -220,37 +341,98 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
     };
   }, []);
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    state: { sorting, pagination, columnFilters, columnVisibility },
-  });
-
-  // Show loading state
-  if (loading) {
+  // Show loading overlay for initial load
+  if (loading && !data.length) {
     return <div className="text-center py-8">Loading orders...</div>;
   }
 
+  // Show loading indicator in the table footer during updates
+  const loadingIndicator = loading && data.length ? (
+    <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
+      <div className="text-sm text-muted-foreground">Updating...</div>
+    </div>
+  ) : null;
+
   return (
     <div className="space-y-4">
-      {/* Filtering Input */}
-      <div className="flex flex-col gap-2">
-        <Input
-          placeholder="Filter by Order Ref or Buyer..."
-          value={(table.getColumn("order_ref")?.getFilterValue() as string) || ""}
-          onChange={(e) => table.getColumn("order_ref")?.setFilterValue(e.target.value)}
-        />
+      {/* Filtering Section */}
+      <div className="flex items-center gap-4">
+        <div className="flex-1">
+          <Input
+            placeholder="Search orders (Order Ref, Buyer)..."
+            value={(table.getColumn("order_ref")?.getFilterValue() as string) || ""}
+            disabled={loading}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Clear other filters and reset page when searching
+              if (value) {
+                setPagination(prev => ({ ...prev, pageIndex: 0 }));
+                setSorting([{ id: "order_date", desc: true }]);
+                setColumnFilters([{ id: "order_ref", value }]);
+              } else {
+                setColumnFilters([]);
+              }
+            }}
+          />
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto" disabled={loading}>
+              Filter {columnFilters.length > 0 && (
+                <span className="ml-2 rounded-full bg-primary w-5 h-5 text-xs flex items-center justify-center text-primary-foreground">
+                  {columnFilters.length}
+                </span>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[200px]">
+            <DropdownMenuGroup>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setPagination(prev => ({ ...prev, pageIndex: 0 }));
+                  setSorting([{ id: "order_date", desc: true }]);
+                  setColumnFilters([{ id: "ship_status", value: "Pending" }]);
+                }}
+              >
+                Pending Orders
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setPagination(prev => ({ ...prev, pageIndex: 0 }));
+                  setSorting([{ id: "order_date", desc: true }]);
+                  setColumnFilters([{ id: "ship_status", value: "Shipped" }]);
+                }}
+              >
+                Shipped Orders
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  setPagination(prev => ({ ...prev, pageIndex: 0 }));
+                  setSorting([{ id: "order_date", desc: true }]);
+                  setColumnFilters([{ id: "payment_status", value: "No Payment" }]);
+                }}
+              >
+                Unpaid Orders
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                onClick={() => {
+                  setPagination(prev => ({ ...prev, pageIndex: 0 }));
+                  setSorting([{ id: "order_date", desc: true }]);
+                  setColumnFilters([]);
+                }}
+              className="text-destructive"
+            >
+              Clear Filters
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Table */}
-      <div className="bg-background overflow-hidden rounded-md border">
+      <div className="bg-background overflow-hidden rounded-md border relative">
+        {loadingIndicator}
         <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
@@ -288,25 +470,53 @@ export default function OrdersTable({ data: initialData = [] }: { data?: OrderRo
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-end space-x-2">
-        <Button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          variant="outline"
-          size="icon"
-          aria-label="Previous page"
-        >
-          <ChevronLeftIcon size={16} />
-        </Button>
-        <Button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          variant="outline"
-          size="icon"
-          aria-label="Next page"
-        >
-          <ChevronRightIcon size={16} />
-        </Button>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="text-sm text-muted-foreground">
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()} pages
+          </div>
+          <select
+            value={table.getState().pagination.pageSize}
+            onChange={e => {
+              setPagination({ pageIndex: 0, pageSize: Number(e.target.value) });
+            }}
+            className="h-8 w-[70px] rounded-md border border-input bg-background px-2 py-1 text-sm"
+            disabled={loading}
+          >
+            {[10, 20, 30, 40, 50].map(pageSize => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm text-muted-foreground">per page</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0"
+            aria-label="Previous page"
+          >
+            <ChevronLeftIcon size={16} />
+          </Button>
+          <span className="text-sm">
+            Page {table.getState().pagination.pageIndex + 1}
+          </span>
+          <Button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0"
+            aria-label="Next page"
+          >
+            <ChevronRightIcon size={16} />
+          </Button>
+        </div>
       </div>
     </div>
   );
